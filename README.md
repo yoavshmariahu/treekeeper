@@ -229,6 +229,7 @@ The full threat model, the archive format and the recovery procedure are in
 ## Contributing
 
 Issues and pull requests are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
+Security problems go through [private reporting](SECURITY.md), not a public issue.
 `npm test` runs the suite against real git repositories, so it needs `git` on
 your PATH and takes about 30 seconds.
 
