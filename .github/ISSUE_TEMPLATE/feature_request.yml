@@ -1,0 +1,28 @@
+name: Feature request
+description: A signal, harness or platform treekeeper should understand
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to clean up that treekeeper leaves behind?
+      description: >
+        Describe the situation rather than the fix — the worktree layout, the harness,
+        and how you can tell the work is finished.
+    validations:
+      required: true
+  - type: textarea
+    id: signal
+    attributes:
+      label: What on disk would prove it is finished (or still active)?
+      description: >
+        treekeeper reads state that already exists — git refs, pull requests, session
+        files, open file handles. If a harness writes something that marks an active
+        session, name the path.
+  - type: checkboxes
+    id: existing
+    attributes:
+      label: Checked first
+      options:
+        - label: The generic `process` and `mtime` detectors do not already cover this
+        - label: "`sessions.commands` in the config cannot express it as a custom check"

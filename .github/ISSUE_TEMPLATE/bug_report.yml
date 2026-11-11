@@ -1,0 +1,38 @@
+name: Bug report
+description: Something behaved differently than documented
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran, what you expected, what you got.
+      placeholder: |
+        $ treekeeper gc --all
+        ...
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: treekeeper doctor
+      description: Output of `treekeeper doctor`. It reports versions, roots and which tools were found.
+      render: console
+    validations:
+      required: true
+  - type: textarea
+    id: plan
+    attributes:
+      label: Plan output
+      description: >
+        If the problem is a keep/reclaim decision, paste `treekeeper gc <repo> --verbose`,
+        which prints the reason for every worktree. treekeeper scrubs credentials from its
+        own output, but do give the text a look before posting it.
+      render: console
+  - type: input
+    id: os
+    attributes:
+      label: OS and versions
+      placeholder: macOS 15.1 · node 22.11 · git 2.47 · gh 2.63
+    validations:
+      required: true

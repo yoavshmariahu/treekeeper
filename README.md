@@ -1,5 +1,11 @@
 # treekeeper
 
+[![ci](https://github.com/yoavshmariahu/treekeeper/actions/workflows/ci.yml/badge.svg)](https://github.com/yoavshmariahu/treekeeper/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/treekeeper?color=0b7)](https://www.npmjs.com/package/treekeeper)
+[![node](https://img.shields.io/node/v/treekeeper)](https://nodejs.org)
+[![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![dependencies](https://img.shields.io/badge/dependencies-none-0b7)](package.json)
+
 **Agents leave worktrees behind. treekeeper takes them away — once the work is actually finished, and never before.**
 
 A coding agent that works in a git worktree per task is wonderful right up to the point where your disk is 40 abandoned checkouts deep, each with its own `node_modules`. The branches pile up too, until `git branch` is a wall of `agent/fix-the-thing-a3f91c`.
@@ -217,6 +223,15 @@ if (plan.summary.worktreesReclaimable > 0) {
 - Credentials are scrubbed from all output — remotes with embedded tokens are common, and the log is persistent.
 - Removals go through `git worktree remove`, never a blind `rm -rf`.
 
+The full threat model, the archive format and the recovery procedure are in
+[docs/safety.md](docs/safety.md).
+
+## Contributing
+
+Issues and pull requests are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
+`npm test` runs the suite against real git repositories, so it needs `git` on
+your PATH and takes about 30 seconds.
+
 ## License
 
-MIT
+[MIT](LICENSE) © Yoav Shmariahu
