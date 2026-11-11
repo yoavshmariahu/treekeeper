@@ -1,0 +1,56 @@
+{
+  "name": "treekeeper",
+  "version": "0.1.0",
+  "description": "Reclaim disk from finished agent worktrees. Watches git, forge PR state and agent sessions, archives anything unique, then removes what is done.",
+  "keywords": [
+    "git",
+    "worktree",
+    "cleanup",
+    "gc",
+    "disk-space",
+    "agent",
+    "ai-agent",
+    "claude-code",
+    "codex",
+    "aider",
+    "cursor",
+    "branches",
+    "daemon"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "treekeeper": "dist/cli.js",
+    "tk": "dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -w -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "start": "node dist/cli.js",
+    "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
