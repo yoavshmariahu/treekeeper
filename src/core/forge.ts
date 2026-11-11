@@ -44,7 +44,9 @@ export interface ForgeOptions {
 }
 
 export function createForge(opts: ForgeOptions): Forge {
-  if (opts.kind === "none") return new NullForge("disabled by config");
+  // Not a problem worth warning about: the repo header already shows that a
+  // sweep ran without pull-request data.
+  if (opts.kind === "none") return new NullForge(null);
   return new GitHubForge(opts);
 }
 
