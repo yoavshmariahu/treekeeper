@@ -35,4 +35,4 @@ Before writing a new detector, check whether the generic `process` and `mtime` d
 
 ## Releasing
 
-Tag-driven, published by GitHub Actions over OIDC — see [RELEASING.md](RELEASING.md).
+Published by hand — see [RELEASING.md](RELEASING.md).
