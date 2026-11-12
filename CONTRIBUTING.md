@@ -32,3 +32,7 @@ src/commands/          one file per CLI command
 Add it to `src/core/sessions.ts`, register the name in `config.ts` (`normalize`'s known-detector list and the default list), and document it in the README table. A detector returns the epoch-ms timestamp of the most recent activity, or `null`. Prefer a cheap check: detectors run per worktree, on every sweep.
 
 Before writing a new detector, check whether the generic `process` and `mtime` detectors already cover your harness — they usually do.
+
+## Releasing
+
+Tag-driven, published by GitHub Actions over OIDC — see [RELEASING.md](RELEASING.md).
