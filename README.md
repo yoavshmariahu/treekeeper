@@ -1,3 +1,5 @@
+[![treekeeper — animated pixel art: a keeper walks a worn path through a fenced orchard of evenly spaced trees](https://raw.githubusercontent.com/yoavshmariahu/treekeeper/main/assets/banner.gif)](https://github.com/yoavshmariahu/treekeeper)
+
 # treekeeper
 
 [![ci](https://github.com/yoavshmariahu/treekeeper/actions/workflows/ci.yml/badge.svg)](https://github.com/yoavshmariahu/treekeeper/actions/workflows/ci.yml)
@@ -6,7 +8,11 @@
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![dependencies](https://img.shields.io/badge/dependencies-none-0b7)](package.json)
 
-**Agents leave worktrees behind. treekeeper takes them away — once the work is actually finished, and never before.**
+**Keep your stray worktrees tidy. No more disk space clutter when using coding agents.**
+
+```bash
+npm install -g @yoavsh/treekeeper
+```
 
 A coding agent that works in a git worktree per task is wonderful right up to the point where your disk is 40 abandoned checkouts deep, each with its own `node_modules`. The branches pile up too, until `git branch` is a wall of `agent/fix-the-thing-a3f91c`.
 
@@ -26,11 +32,13 @@ re-run with --apply to do it
 
 ## Install
 
-```bash
-npm install -g @yoavsh/treekeeper      # or: npx @yoavsh/treekeeper gc --all
-```
-
 Needs Node 20+ and `git`. Install [`gh`](https://cli.github.com) too — without it treekeeper cannot see squash merges, which is how most agent branches land.
+
+Or run it without installing anything:
+
+```bash
+npx @yoavsh/treekeeper gc --all
+```
 
 ## Quick start
 
