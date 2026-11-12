@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Fix the README's harness-hook snippet, which told you to run `npx -y treekeeper`. That name is an unrelated package; the scoped `npx -y @yoavsh/treekeeper` is correct. No code changed.
+
 ## 0.1.0
 
 First release.
