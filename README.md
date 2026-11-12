@@ -99,7 +99,7 @@ treekeeper daemon status
 **2. Or call it from a harness hook** — any harness that can run a shell command:
 
 ```bash
-npx -y treekeeper gc --all --apply --yes --quiet
+npx -y @yoavsh/treekeeper gc --all --apply --yes --quiet
 ```
 
 **3. Or read the plan as JSON** and decide for yourself:
