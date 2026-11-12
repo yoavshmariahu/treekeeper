@@ -15,7 +15,7 @@ The snippets below are for when you want a sweep tied to a specific moment inste
 Whatever the harness, the hook body is the same:
 
 ```bash
-npx -y treekeeper gc --all --apply --yes --quiet
+npx -y @yoavsh/treekeeper gc --all --apply --yes --quiet
 ```
 
 - `--yes` skips the confirmation prompt (hooks have no TTY)
@@ -34,7 +34,7 @@ Add a `SessionEnd` hook to `~/.claude/settings.json`:
     "SessionEnd": [
       {
         "hooks": [
-          { "type": "command", "command": "npx -y treekeeper gc --all --apply --yes --quiet" }
+          { "type": "command", "command": "npx -y @yoavsh/treekeeper gc --all --apply --yes --quiet" }
         ]
       }
     ]
@@ -60,7 +60,7 @@ Run `treekeeper gc --all` and show me the plan. If it looks right, run it with `
 treekeeper detects Codex activity from `~/.codex/sessions/**/*.jsonl` (matching the recorded `cwd`). To sweep on a schedule instead, use the daemon. To sweep from a notify hook in `~/.codex/config.toml`:
 
 ```toml
-notify = ["bash", "-lc", "npx -y treekeeper gc --all --apply --yes --quiet"]
+notify = ["bash", "-lc", "npx -y @yoavsh/treekeeper gc --all --apply --yes --quiet"]
 ```
 
 ## Cursor / Windsurf / JetBrains agents
@@ -72,7 +72,7 @@ These keep session state in editor-internal databases, so treekeeper relies on i
 `.aider.chat.history.md` inside the worktree is the activity signal, and it is on by default. For a sweep after each session, wrap your invocation:
 
 ```bash
-aider "$@"; npx -y treekeeper gc --apply --yes --quiet
+aider "$@"; npx -y @yoavsh/treekeeper gc --apply --yes --quiet
 ```
 
 ## A harness treekeeper has never heard of
@@ -120,7 +120,7 @@ With `--apply --json` you get `{ "plan": …, "result": … }`, where `result` l
 treekeeper is built for developer machines, where worktrees outlive their usefulness. In CI, where the checkout is thrown away anyway, it buys you nothing — except on a long-lived self-hosted runner, where a nightly job is reasonable:
 
 ```yaml
-- run: npx -y treekeeper gc --root "$RUNNER_WORKDIR" --apply --yes
+- run: npx -y @yoavsh/treekeeper gc --root "$RUNNER_WORKDIR" --apply --yes
   env:
     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```

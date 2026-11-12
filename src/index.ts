@@ -2,7 +2,7 @@
  * Programmatic entry point, for harnesses that would rather call treekeeper
  * in-process than shell out to the CLI.
  *
- *   import { loadConfig, createForge, discoverRepos, buildPlan, applyPlan } from "treekeeper";
+ *   import { loadConfig, createForge, discoverRepos, buildPlan, applyPlan } from "@yoavsh/treekeeper";
  */
 export { loadConfig, loadRepoConfig, defaultConfig, globalConfigPath } from "./core/config.js";
 export type { Config, SessionConfig, ArchiveConfig, DirtyPolicy } from "./core/config.js";

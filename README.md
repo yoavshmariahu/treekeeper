@@ -1,8 +1,8 @@
 # treekeeper
 
 [![ci](https://github.com/yoavshmariahu/treekeeper/actions/workflows/ci.yml/badge.svg)](https://github.com/yoavshmariahu/treekeeper/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/treekeeper?color=0b7)](https://www.npmjs.com/package/treekeeper)
-[![node](https://img.shields.io/node/v/treekeeper)](https://nodejs.org)
+[![npm](https://img.shields.io/npm/v/%40yoavsh%2Ftreekeeper?color=0b7)](https://www.npmjs.com/package/@yoavsh/treekeeper)
+[![node](https://img.shields.io/node/v/%40yoavsh%2Ftreekeeper)](https://nodejs.org)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![dependencies](https://img.shields.io/badge/dependencies-none-0b7)](package.json)
 
@@ -27,7 +27,7 @@ re-run with --apply to do it
 ## Install
 
 ```bash
-npm install -g treekeeper      # or: npx treekeeper gc --all
+npm install -g @yoavsh/treekeeper      # or: npx @yoavsh/treekeeper gc --all
 ```
 
 Needs Node 20+ and `git`. Install [`gh`](https://cli.github.com) too — without it treekeeper cannot see squash merges, which is how most agent branches land.
@@ -201,7 +201,7 @@ Every removal is appended as JSON to `~/.treekeeper/treekeeper.log`, so there is
 ## Programmatic use
 
 ```ts
-import { loadConfig, createForge, discoverRepos, buildPlan, applyPlan, Logger } from "treekeeper";
+import { loadConfig, createForge, discoverRepos, buildPlan, applyPlan, Logger } from "@yoavsh/treekeeper";
 
 const { config } = await loadConfig();
 const logger = new Logger({ level: "info" });

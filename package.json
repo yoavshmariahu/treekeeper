@@ -1,5 +1,5 @@
 {
-  "name": "treekeeper",
+  "name": "@yoavsh/treekeeper",
   "version": "0.1.0",
   "description": "Reclaim disk from finished agent worktrees. Watches git, forge PR state and agent sessions, archives anything unique, then removes what is done.",
   "keywords": [
@@ -42,6 +42,9 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "files": [
     "dist",

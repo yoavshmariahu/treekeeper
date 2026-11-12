@@ -15,6 +15,22 @@ The workflow runs typecheck, the test suite and a clean build, refuses to
 continue if the tag disagrees with `package.json`, then publishes. Provenance
 is attached automatically; `--provenance` is not needed and is not passed.
 
+## Why the package is scoped
+
+The unscoped name `treekeeper` is unavailable: npm's similarity check rejects
+it with
+
+```
+403 Forbidden - PUT https://registry.npmjs.org/treekeeper
+Package name too similar to existing package timekeeper
+```
+
+Scoped names are exempt from that check, so the package publishes as
+`@yoavsh/treekeeper`. The binaries are unaffected and remain `treekeeper` and
+`tk` — `bin` names are independent of the package name. `publishConfig.access`
+is set to `public` in `package.json`, so a scoped publish does not need
+`--access public` on the command line.
+
 ## One-time setup
 
 Trusted publishing is configured per package, in the package's own settings on
@@ -72,8 +88,8 @@ passkey there is no code to type, so stage-and-approve is the route.
 
 ### Step 2 — connect the trusted publisher (once)
 
-npmjs.com → **treekeeper** → **Settings** → **Trusted Publisher** → GitHub
-Actions:
+npmjs.com → **@yoavsh/treekeeper** → **Settings** → **Trusted Publisher** →
+GitHub Actions:
 
 | Field | Value |
 | --- | --- |
@@ -87,8 +103,8 @@ Or from the CLI, which needs npm 11.15.0+ and 2FA enabled on the account
 (trust commands reject a bypass-2FA token outright):
 
 ```bash
-npm trust github treekeeper --file release.yml --repo yoavshmariahu/treekeeper --allow-publish
-npm trust list treekeeper
+npm trust github @yoavsh/treekeeper --file release.yml --repo yoavshmariahu/treekeeper --allow-publish
+npm trust list @yoavsh/treekeeper
 ```
 
 Notes that will save you time:
@@ -109,7 +125,7 @@ Notes that will save you time:
 
 ### Step 3 — lock it down (once)
 
-With OIDC working, set npmjs.com → **treekeeper** → **Settings** →
+With OIDC working, set npmjs.com → **@yoavsh/treekeeper** → **Settings** →
 **Publishing access** → **Require two-factor authentication and disallow
 tokens**. This does not affect the OIDC workflow, and it means a stolen npm
 token cannot publish treekeeper at all. Then delete any token from step 1.
