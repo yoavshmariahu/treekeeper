@@ -1,0 +1,334 @@
+{
+ "schema": "tci-context/1",
+ "briefs": [
+  {
+   "session": "7a4fe7ee-91de-4f39-add3-b2635621cf6b.ab84ace33654cd118",
+   "model": "claude-opus-5-5",
+   "compressedAt": "2026-11-25T00:12:41.960Z",
+   "summary": "The user asked the agent to finish a part-built `treekeeper ui` feature on branch `ui-report`. The feature is a local, read-only web dashboard that shows what treekeeper has removed (worktrees, space reclaimed, branches, by repo, over time), plus current disk usage and daemon state. The core, page, server and command code was already written and was not to be redesigned. The agent's job was to wire `ui` into `src/cli.ts`, export the history and usage builders from `src/index.ts`, check against the real log that it runs and reports the expected numbers, and add README and CHANGELOG entries. The agent did not commit, push or write tests.",
+   "sources": [
+    "src/cli.ts",
+    "src/index.ts",
+    "src/commands/ui.ts",
+    "src/commands/context.ts (and its uncommitted git diff)",
+    "src/ui/server.ts",
+    "src/ui/page.ts",
+    "src/core/history.ts",
+    "src/core/usage.ts",
+    "README.md",
+    "CHANGELOG.md",
+    "package.json",
+    "src/core/plan.ts, src/core/apply.ts, src/commands/gc.ts (checked only for maximum line length, to match style)",
+    "~/.treekeeper/treekeeper.log (the user's real event log, used as the fixture)",
+    "tci status output"
+   ],
+   "behaviors": {
+    "ui-command": {
+     "request": "Wire the command into src/cli.ts, which had nothing for it. Add parseArgs options `port` (string) and `no-open` (boolean), mapped into CliFlags as `port: values.port` and `noOpen: values[\"no-open\"]`. Add a `case \"ui\":` that calls `uiCommand(flags)`. Add HELP lines: `ui` under COMMANDS, and `--port <n>` and `--no-open` under OPTIONS, matching the existing wording and alignment exactly. Add an EXAMPLES line only if it genuinely earns its place.",
+     "approach": "The agent read cli.ts and the existing ui.ts and context.ts, then declared a tci intent for the wiring. It made seven small edits to cli.ts: the parseArgs options, the CliFlags mapping, the switch case and the help text. It then checked that `node dist/cli.js --help` renders, and that `ui --port abc` is rejected, by running both and looking at the exit code. The README got a `treekeeper ui` section placed among the existing command sections, and CHANGELOG.md got a line under Unreleased.",
+     "decisions": [
+      "The flag mapping uses exactly the names the user specified (`port`, `noOpen`). context.ts already had these fields in CliFlags, so it was not changed.",
+      "The agent checked that `ui --json` leaves the log unchanged, by comparing the log's size and mtime before and after. This confirms the `logToFile` option that was already in context.ts works as intended: reporting never grows the log."
+     ],
+     "constraints": [
+      "Do not rewrite or redesign the existing ui.ts or context.ts code.",
+      "Keep zero runtime dependencies.",
+      "Never run `gc --apply`, `watch`, `daemon install/start/stop` or `archive prune` on this machine.",
+      "`npm run typecheck` and `npm run build` must pass at the end. The final run shows both passed.",
+      "No commit, push or tests. A separate agent writes the tests."
+     ],
+     "rejected": [],
+     "open": [
+      "The log does not show whether an EXAMPLES line was added to the help text.",
+      "The log does not show the exact output of the `--port abc` check, only that it was run."
+     ]
+    },
+    "ui-removal-history": {
+     "request": "Export the new core from src/index.ts, following the file's existing grouping and comment style. This covers the history report builder and its types, exported the same way as the other core pieces. Running `ui --json` against the real log must give 35 worktrees, 18768592 KB (17.9 GB) and 663 branches, split as thinker: 33 worktrees / 17.8 GB and thinkerall: 2 / 0.1 GB. Any disagreement is a defect to fix.",
+     "approach": "Under the tci behavior ui-removal-history, with the intent of exporting the reader and builder so a caller can summarize the event log in-process, the agent added the history exports to src/index.ts. These are the reader, the report builder and their types and range helpers, from core/history.ts. It then built the project, ran `node dist/cli.js ui --json` against the real ~/.treekeeper/treekeeper.log, parsed the result with a node script and compared it to the expected figures. The agent reported that all numbers matched exactly, and they still matched after the docs edits and a rebuild.",
+     "decisions": [
+      "The agent checked the maximum line length in index.ts and in plan.ts, apply.ts and gc.ts, then edited the history export a second time so it would match the existing formatting.",
+      "No change was made to history.ts. The numbers matched, so no defect was found."
+     ],
+     "constraints": [
+      "The existing log event format must not change.",
+      "The `--json` output of the other commands must not change."
+     ],
+     "rejected": [],
+     "open": []
+    },
+    "ui-disk-usage": {
+     "request": "Export the usage report builder and its types from src/index.ts, in the same way as the other core pieces. Check `/api/usage`, which runs du and gh across about 40 repos and is slow. Give it a generous timeout, and if it is too slow to wait on, say so rather than reporting a guess.",
+     "approach": "Under the tci behavior ui-disk-usage, with the intent of exporting the measurement and its summarizer, the agent added the usage exports (from core/usage.ts) to src/index.ts. It then curled `/api/usage` on the running server with `--max-time 540`, saved the response, and printed `durationMs` and the volume and repo summaries with a node script.",
+     "decisions": [
+      "The 540-second curl timeout followed the user's warning that the route is slow."
+     ],
+     "constraints": [
+      "Node built-ins only.",
+      "Do not change state.json's shape."
+     ],
+     "rejected": [],
+     "open": [
+      "The log does not show the actual duration or the numbers `/api/usage` returned."
+     ]
+    },
+    "ui-dashboard-page": {
+     "request": "The page in src/ui/page.ts (PAGE_HTML, PAGE_CSP) was already written. It was not to be redesigned, only checked to confirm it is served. No dynamic string may reach the page as HTML.",
+     "approach": "The agent read page.ts and grepped it for innerHTML, insertAdjacent and document.write to check the rule that no dynamic string reaches the page as HTML. It then curled `GET /` on the running server and recorded the status code, content type and byte count. The session shows no edits to page.ts.",
+     "decisions": [
+      "page.ts was left untouched."
+     ],
+     "constraints": [
+      "No dynamic string reaches the page as HTML.",
+      "Do not modify the existing code unless it has a real defect."
+     ],
+     "rejected": [],
+     "open": [
+      "The log does not show whether PAGE_HTML and PAGE_CSP were exported from index.ts. The user asked the agent to decide and to explain its choice, but that explanation is only in the final handback, which is not in this log."
+     ]
+    },
+    "ui-server": {
+     "request": "The server in src/ui/server.ts was already written. The agent was to confirm it runs: reserve a port with `claude-port reserve treekeeper ui`, start the server in the background with `--port` and `--no-open`, and curl `/`, `/api/history?range=7d`, `/api/history` and `/api/usage`. It was also to check that a wrong Host header gets 403, `POST /` gets 405 and an unknown path gets 404. Afterwards it was to stop only its own process, by PID, and release the port. The server must stay bound to 127.0.0.1 with its Host-header check.",
+     "approach": "The agent reserved port 7801 through claude-port and started `node dist/cli.js ui --port 7801 --no-open` with nohup. It saved the PID to the scratchpad and curled every route plus the refusal cases. It also checked that a `localhost` Host header is accepted, and that hitting the history and usage routes does not change the log's size. It then sent SIGTERM to the saved PID after checking with ps that the PID was its own server, and released the reservation with `claude-port release treekeeper ui`.",
+     "decisions": [
+      "The server was stopped by its saved PID, not by port or pkill, as the machine's shared-resource rules require.",
+      "Throwaway output went to the session scratchpad."
+     ],
+     "constraints": [
+      "The server stays bound to 127.0.0.1 with the Host-header check.",
+      "It is read-only.",
+      "No hardcoded ports: use the claude-port registry."
+     ],
+     "rejected": [
+      "Freeing the port by blanket-killing (pkill, or killing by port) was ruled out by the user's rules."
+     ],
+     "open": [
+      "The status codes curl returned (including the 403, 405 and 404 checks) are not shown in the log. They were reported in the final handback, which this log does not include. The log does not say whether those status codes or the bad-port check were run again after the docs edits."
+     ]
+    }
+   }
+  },
+  {
+   "session": "7a4fe7ee-91de-4f39-add3-b2635621cf6b.aa49ae2d036b4a099",
+   "model": "claude-opus-5-5",
+   "compressedAt": "2026-11-25T00:13:12.513Z",
+   "summary": "The user asked for a new `treekeeper ui` command: a local, read-only web dashboard on 127.0.0.1. It shows removal history (built from the existing JSONL event log), current disk usage per volume and per repo, and daemon state. The user gave a detailed spec covering data sources, module shape, security requirements and the docs to update. The agent wrote the core history and usage modules, the HTML page, the HTTP server, a change to the command context and `src/commands/ui.ts`. The session then ended on a model usage limit, so the log shows no CLI wiring, tests, docs or verification.",
+   "sources": [
+    "src/cli.ts",
+    "src/commands/status.ts",
+    "src/core/apply.ts",
+    "src/util/log.ts",
+    "src/daemon/state.ts",
+    "src/core/plan.ts",
+    "src/commands/context.ts",
+    "src/index.ts",
+    "src/util/bytes.ts",
+    "src/util/paths.ts",
+    "src/util/time.ts",
+    "src/core/size.ts",
+    "src/core/scan.ts",
+    "src/core/forge.ts",
+    "src/core/sessions.ts",
+    "src/util/exec.ts",
+    "src/util/color.ts",
+    "src/commands/daemon.ts",
+    "src/commands/watch.ts",
+    "src/commands/gc.ts",
+    "src/daemon/service.ts",
+    "CHANGELOG.md",
+    "README.md",
+    "~/.treekeeper/treekeeper.log (the real event log, inspected for reclaim lines)",
+    "dataviz skill references: marks-and-anatomy.md, palette.md, interaction.md (plus its validate_palette.js script, run on #2a78d6)"
+   ],
+   "behaviors": {
+    "ui-command": {
+     "request": "A `treekeeper ui` command in `src/commands/ui.ts`, wired into `src/cli.ts` (a switch case, plus HELP text under COMMANDS and OPTIONS). Flags: `--port <n>`, which defaults to an OS-picked free port and is never hardcoded, and `--no-open`. By default it opens the URL with `open` on macOS or `xdg-open` on Linux and never fails if that doesn't work. It always prints the URL and runs until SIGINT/SIGTERM, then closes cleanly and returns 0. `treekeeper ui --json` prints the history report to stdout and exits without starting a server.",
+     "approach": "The agent added `port` and a no-open option to the command context in `src/commands/context.ts`. It also let a command build its context without a log file: the dashboard reads the event log and never appends to it. Then it wrote `src/commands/ui.ts`.",
+     "decisions": [
+      "The context can be built without a logger file, so running `ui` never writes to the event log it is reporting on."
+     ],
+     "constraints": [
+      "Don't hardcode a port; let the OS pick unless `--port` is given.",
+      "Opening the browser must never make the command fail.",
+      "`--json` must be consistent with the other commands' `--json` output and must not start a server.",
+      "Don't change the other commands' existing `--json` outputs."
+     ],
+     "rejected": [],
+     "open": [
+      "The session stopped on a usage limit right after `ui.ts` was written. The log shows no `cli.ts` switch case, HELP text, README section or CHANGELOG line being added, and no tests or build run. Check whether these are in the commit."
+     ]
+    },
+    "ui-removal-history": {
+     "request": "Show how many worktrees were removed, the space reclaimed and the branches deleted, broken down by repo (name, worktrees, space, branches, most recent removal). Also a per-day series of space reclaimed and a list of individual removals (when, repo, branch, size, reason). A 7-day / 30-day / all-time range must apply consistently to all of these. The data comes from the existing JSONL log (`reclaim` and `branch-delete` events); no new store.",
+     "approach": "The agent wrote `src/core/history.ts`. Per the spec, it has two parts: a pure parser that turns log lines into removal events, and a pure summarizer that takes events, a `now` and a range and returns totals, by-repo, by-day and a recent list, with no I/O. The log is read as a stream. Malformed lines and non-event lines (debug/warn) are skipped, and a missing file gives an empty history. The repo display name is `basename(repo)`. The report builder and its types were to be exported from `src/index.ts`.",
+     "decisions": [
+      "The history is reconstructed from the existing `reclaim` and `branch-delete` events (`sizeKb`, `repo`, `branch`, `reason`, `ts`) instead of adding a new store, as the user directed. Per the user, their real log already has 35 reclaim events going back to 2026-11-12."
+     ],
+     "constraints": [
+      "Don't change the format of the existing log events. If new fields seem necessary, say so in the report instead of adding them.",
+      "The log is several MB of mostly non-event lines, so it must be streamed, and parsing must never throw."
+     ],
+     "rejected": [],
+     "open": [
+      "The log does not show the `src/index.ts` export being made, or any tests for history.ts."
+     ]
+    },
+    "ui-disk-usage": {
+     "request": "For the volumes holding the configured roots: total, used and free. Per repo: how many worktrees exist, how much disk they occupy, and how many and how much are reclaimable right now.",
+     "approach": "The agent wrote `src/core/usage.ts`. It measures volumes with `fs.promises.statfs`, deduplicating roots that share a volume. Per-repo figures come from `buildPlan({..., allSizes: true})` over `discoverRepos(config.roots)`, the same way `statusCommand` does it.",
+     "decisions": [
+      "Volumes are measured with `statfs` rather than by shelling out to `df`, as the user specified."
+     ],
+     "constraints": [
+      "This is slow (`du` per worktree, `gh` per repo), so it must load separately from history.",
+      "Read only: never call `applyPlan`."
+     ],
+     "rejected": [],
+     "open": []
+    },
+    "ui-dashboard-page": {
+     "request": "One self-contained HTML page served from a string in the source, with inline CSS, inline JS and an inline SVG bar chart. No external requests (no CDN, no fonts). Light and dark modes via `prefers-color-scheme`. Sizes in K/M/G following the `formatKb` convention. Empty states: 'nothing removed yet', 'measuring…', and an error line if the usage call fails. Layout: headline numbers, then the per-repo table, the chart, the removals list and current usage. Tabular numerals and right-aligned numeric columns. History renders immediately, and the usage section loads separately with a refresh option. Daemon state is shown as in `status`.",
+     "approach": "The agent wrote `src/ui/page.ts`. Before writing it, the agent loaded the bundled dataviz skill (marks/anatomy, palette and interaction references) and ran its palette validator on #2a78d6 in light mode, and possibly in a second mode as well, to choose the chart colour.",
+     "decisions": [
+      "The chart colour was checked with the dataviz skill's palette validator rather than picked by eye."
+     ],
+     "constraints": [
+      "Every dynamic string (branch names, paths, reasons, all from git and untrusted) must go into the DOM via `textContent` or text nodes, never `innerHTML` or string-built markup.",
+      "No external loads of any kind."
+     ],
+     "rejected": [],
+     "open": [
+      "The log does not show the page being viewed or tested."
+     ]
+    },
+    "ui-server": {
+     "request": "An HTTP server on `node:http` only, created by a function that takes its data sources as injected dependencies (so it is testable without real repos or a real home dir) and returns the server. Routes: the HTML page, JSON history and JSON current usage. Other paths return 404, and methods other than GET/HEAD return 405. Bind to 127.0.0.1 only and reject requests whose Host is not `127.0.0.1:<port>` or `localhost:<port>`. Send a CSP that forbids external loads, plus `X-Content-Type-Options: nosniff`. Compute current usage once, share an in-flight computation between concurrent requests, cache it for a few minutes and allow a refresh. Read-only, with no endpoint that changes anything.",
+     "approach": "The agent wrote `src/ui/server.ts` to this spec. While writing it, the agent re-read `src/core/forge.ts` (lines 25–160) to see how the existing caching and `gh` calls behave.",
+     "decisions": [
+      "Data sources are injected so the server can be tested without real repos or a real home directory, as the user specified."
+     ],
+     "constraints": [
+      "Host-header check as a DNS-rebinding defence, because responses contain local paths and branch names.",
+      "Zero runtime dependencies (the README has a 'dependencies: none' badge).",
+      "Never call `applyPlan`; no mutating endpoints.",
+      "While working on this machine, never run `gc --apply`, `watch`, `daemon install/start` or `archive prune`."
+     ],
+     "rejected": [],
+     "open": [
+      "The log shows no server tests being written or run before the session ended."
+     ]
+    }
+   }
+  },
+  {
+   "session": "7a4fe7ee-91de-4f39-add3-b2635621cf6b.abcb6f7418ae6d4be",
+   "model": "claude-opus-5-5",
+   "compressedAt": "2026-11-25T00:13:45.931Z",
+   "summary": "The user asked for \"a treekeeper UI that gives me reports of my disk usage and how many worktrees it removed and which repos.\" Another session had already implemented this as `treekeeper ui`, a local, read-only web dashboard, on branch `ui-report`, with nothing committed. This session only verified that change: it read the source and the existing test style, then added test files for all five behaviors (history, usage, page, server, command) plus a minimal fake DOM. It changed no source code, and `tci status` ended with \"ok: nothing blocks this change\".",
+   "sources": [
+    "src/core/history.ts",
+    "src/core/usage.ts",
+    "src/ui/page.ts",
+    "src/ui/server.ts",
+    "src/commands/ui.ts",
+    "src/commands/context.ts",
+    "src/cli.ts",
+    "src/index.ts",
+    "src/util/log.ts",
+    "src/util/paths.ts",
+    "src/core/apply.ts (where reclaim / branch-delete events are written)",
+    "src/core/plan.ts (Plan / RepoPlan / candidate types)",
+    "src/core/decide.ts (Verdict, MergeStatus)",
+    "src/core/config.ts",
+    "src/daemon/state.ts",
+    "src/daemon/service.ts (daemonStatus)",
+    "test/fixture.ts",
+    "test/plan.test.ts",
+    "test/service.test.ts",
+    "test/stub-forge.ts",
+    "tci.config.json, vitest.config.ts, tsconfig.json, package.json, .gitignore",
+    "~/.treekeeper/treekeeper.log and state.json (read only, to check against the user's ground-truth numbers)"
+   ],
+   "behaviors": {
+    "ui-command": {
+     "request": "The user wanted a treekeeper UI that reports disk usage, how many worktrees treekeeper removed, and in which repos. It is run as `treekeeper ui`. `ui --json` prints the all-time history report as JSON instead of starting a server.",
+     "approach": "`src/commands/ui.ts` is wired into `src/cli.ts`. `UiCommandDeps` (`signal`, `onListening`, `openBrowser`) let tests drive the command in-process. The server binds 127.0.0.1 only. The command builds its context with `createContext(flags, {logToFile: false})` so that a reporting command does not append to the log it is reading. `test/ui-command.test.ts` covers: the `--json` output and that it starts no server; a bad `--port` exits with code 2; the loopback-only bind; the abort signal stopping the command; `--no-open` not calling `openBrowser`; and the log-free context.",
+     "decisions": [
+      "Tests drive the command in-process through the injected deps instead of spawning the CLI, so they never touch real repos or the daemon.",
+      "The log-free context got its own test, because appending to the log being read would distort the report.",
+      "Lines 129-130 of the test file (`agent: false` on HTTP requests) were adopted with `tci adopt` under the ui-command intent."
+     ],
+     "constraints": [
+      "Tests must never run `gc --apply`, `watch`, `daemon install/start/stop` or `archive prune`, and must never write to `~/.treekeeper`. `TREEKEEPER_HOME` points at a throwaway directory.",
+      "TypeScript, ESM, Node >= 20, vitest, following the house style of the existing `test/` files."
+     ],
+     "rejected": [],
+     "open": [
+      "After the test run, the agent grepped the real `treekeeper.log` for temp-dir paths to confirm the tests had not written to it. The log does not show the result explicitly."
+     ]
+    },
+    "ui-removal-history": {
+     "request": "\"How many worktrees it removed and which repos\": a history of removals with worktrees removed, space reclaimed and branches pruned, broken down by repo, with a per-day chart and a list of individual removals, under a 7d / 30d / all-time range selector.",
+     "approach": "No new data store. History is read from the JSONL event log treekeeper already writes (`reclaim` and `branch-delete` events). `parseLogLine` returns a `RemovalEvent` or null and never throws. `buildHistoryReport(events, {now, range, utcOffsetMinutes})` builds the totals, the `byRepo` rows, the `byDay` series and the `removals` list. `test/history.test.ts` checks that all four views count exactly the same events, not just the totals. It also tests calendar-day ranges, empty days, the UTC-offset day cut, exclusion of future events, and capping at `maxRemovals` with `removalsOmitted`. A further test checks that `src/index.ts` re-exports these functions.",
+     "decisions": [
+      "The parser returns null instead of throwing. The real log is about 4.5 MB of mostly unrelated debug/warn lines and can end mid-line.",
+      "A range is a whole number of calendar days ending today (7d = today plus the six days before). Empty days still appear in `byDay`.",
+      "Days are cut at `utcOffsetMinutes`, not at UTC, so the days match local time.",
+      "`removals` is capped (default 500) with the remainder counted in `removalsOmitted`, and the totals still count every event."
+     ],
+     "constraints": [
+      "Tests use controlled fixtures, not the real log.",
+      "Ground truth the user computed from the real log: 35 worktrees, 18768592 KB, 663 branches, 7 repos (thinker 33/252, thinkerall 2/4, plus codervibes 346, artemis 28, kronus 12, vibecheck 12, thinker-internal 9 branches only). The KB total equals `totalReclaimedKb` in `state.json`."
+     ],
+     "rejected": [],
+     "open": [
+      "The agent rebuilt, ran `node dist/cli.js ui --json` against the real log, and wrote a separate oracle script to compare. The log does not state the comparison result; no mismatch was reported."
+     ]
+    },
+    "ui-disk-usage": {
+     "request": "\"Reports of my disk usage\": volume free/used space, and for each repo how many worktrees exist, their size, and how much is reclaimable now.",
+     "approach": "Current usage comes from `buildPlan({allSizes: true})` plus `statfs`. `readVolumes` deduplicates roots that share a volume. `summarizeUsage` turns a plan into per-repo rows and totals, and takes an injected volume probe. `test/usage.test.ts` tests these with a stubbed probe, plus one end-to-end usage report on a temp-dir fixture repo, plus an index re-export check.",
+     "decisions": [
+      "The volume probe is injected so the tests never touch a real filesystem's statfs.",
+      "A repo whose size could not be measured (`du` failed, so null) must not corrupt the totals. This case has an explicit test."
+     ],
+     "constraints": [
+      "The end-to-end test stays in temp dirs using the existing fixture helpers."
+     ],
+     "rejected": [],
+     "open": []
+    },
+    "ui-dashboard-page": {
+     "request": "Everything on one page: removal history, disk usage and daemon state.",
+     "approach": "`PAGE_HTML` is one self-contained document with inline CSS/JS and an inline SVG chart. `PAGE_CSP` is `default-src 'none'` with the inline script and style pinned by sha256 hash. `test/page.test.ts` checks that the document makes no external requests, that the CSP hashes match the shipped script and style, and that untrusted strings are rendered as text only. For the last check it runs the inline script against `test/fake-dom.ts`, a minimal DOM written for this purpose.",
+     "decisions": [
+      "No external requests of any kind (no CDN, no web font). The README promises zero dependencies, and the page shows local paths.",
+      "Dynamic strings (branch names, paths and reasons, which come from git and are untrusted) go into the DOM via `textContent`, never `innerHTML`.",
+      "The CSP hashes are checked against the actual script and style. A stale hash gives a blank page in a real browser, and nothing else would catch it.",
+      "The agent wrote its own minimal fake DOM instead of adding a dependency, so the inline script can run in a test."
+     ],
+     "constraints": [
+      "Zero runtime dependencies, as the README promises."
+     ],
+     "rejected": [],
+     "open": []
+    },
+    "ui-server": {
+     "request": "A local web dashboard serving the report. It must be read-only and local.",
+     "approach": "`createUiServer(deps)` gets every data source injected, and `listenLocal` binds to loopback. `test/ui-server.test.ts` runs it with stubs over a real loopback socket. It checks:\n- the three GET routes answer;\n- non-GET/HEAD requests get 405 with `Allow: GET, HEAD`;\n- unknown paths get 404;\n- a bad `?range=` gets 400;\n- a `Host` header other than `127.0.0.1:<port>` or `localhost:<port>` gets 403, while `localhost:<port>` is allowed;\n- concurrent requests run the slow usage measurement only once, and the result is cached until `refresh=1` or the TTL lapses (with `now` and `usageTtlMs` injected);\n- a data source that throws gives a 500 with a JSON error instead of a hung request.",
+     "decisions": [
+      "Read-only by design: nothing the server exposes can remove, archive or prune. The agent also grepped `server.ts` and found no references to apply/archive/prune/delete/remove functions, `child_process`, or fs writes.",
+      "The Host-header check is a defence against DNS rebinding.",
+      "The usage measurement is shared across concurrent requests and cached, because it is slow (`du` over every worktree).",
+      "Before finalizing the tests, the agent probed Host handling with scratch scripts using `http.request` and a raw `net.connect` socket, so it could send arbitrary Host headers."
+     ],
+     "constraints": [
+      "Bind 127.0.0.1 only. The server must be safe to run on the user's machine while a live daemon and worktrees are present."
+     ],
+     "rejected": [],
+     "open": []
+    }
+   }
+  }
+ ]
+}
