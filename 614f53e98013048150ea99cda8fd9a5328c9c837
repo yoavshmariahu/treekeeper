@@ -1,0 +1,526 @@
+src/cli.ts
+  a1 10,23,47-48,82,88,131-132,141-142
+src/commands/context.ts
+  a2 27-30,41-48,50,63
+  a2 -38,51
+src/commands/ui.ts
+  a3 1-167
+src/core/history.ts
+  a4 1-319
+src/core/usage.ts
+  a5 1-233
+src/index.ts
+  a6 33-40
+  a7 41-45
+src/ui/page.ts
+  a8 1-909
+src/ui/server.ts
+  a9 1-229
+test/fake-dom.ts
+  a10 1-261
+test/history.test.ts
+  a11 1-350,361-468
+  a12 351-360
+test/page.test.ts
+  a13 1-470
+test/ui-command.test.ts
+  a14 1-300
+test/ui-server.test.ts
+  a15 1-385
+test/usage.test.ts
+  a16 1-267,276-392
+  a17 268-275
+---
+{
+ "schema": "tci/1",
+ "base": "d967c5d93862dd95e05adf3242d7f7276834171c",
+ "annotations": {
+  "a1": {
+   "behavior": "ui-command",
+   "intent": "Wire the ui command into the CLI: parse --port and --no-open, dispatch 'ui' to uiCommand, and document both in the help text."
+  },
+  "a2": {
+   "behavior": "ui-command",
+   "intent": "Let a command build its context without a log file, so the dashboard reads the event log and never appends to it; and carry the ui command's --port and --no-open flags."
+  },
+  "a3": {
+   "behavior": "ui-command",
+   "intent": "Add the ui command: wire the event log, daemon state and usage measurement into the server, listen on 127.0.0.1, print the URL, open the browser, and stop cleanly on a signal; --json prints the history report instead."
+  },
+  "a4": {
+   "behavior": "ui-removal-history",
+   "intent": "Add the pure log-line parser, the streaming log reader and the report builder that the dashboard and ui --json read history from."
+  },
+  "a5": {
+   "behavior": "ui-disk-usage",
+   "intent": "Add the usage report: volume totals from statfs, a pure per-repo summary of a plan, and the builder that plans every repo and measures every linked worktree."
+  },
+  "a6": {
+   "behavior": "ui-removal-history",
+   "intent": "Export the removal-history reader and report builder from the package entry point, so a caller can summarize the event log in-process."
+  },
+  "a7": {
+   "behavior": "ui-disk-usage",
+   "intent": "Export the disk-usage measurement and its summarizer from the package entry point, so a caller can measure volumes and per-repo worktree usage in-process."
+  },
+  "a8": {
+   "behavior": "ui-dashboard-page",
+   "intent": "Add the self-contained HTML document (inline CSS, script and SVG chart) and the Content-Security-Policy that pins its inline blocks by hash."
+  },
+  "a9": {
+   "behavior": "ui-server",
+   "intent": "Add the node:http server factory that takes its data sources as injected dependencies, plus the helper that binds it to 127.0.0.1."
+  },
+  "a10": {
+   "behavior": "ui-dashboard-page",
+   "intent": "A minimal DOM so the dashboard's inline script can be run in a test"
+  },
+  "a11": {
+   "behavior": "ui-removal-history",
+   "intent": "Tests for reading removal events out of the JSONL log and summarizing them per range, repo, day and removal"
+  },
+  "a12": {
+   "behavior": "ui-removal-history",
+   "intent": "A test that the package entry point re-exports the history reader and report builder"
+  },
+  "a13": {
+   "behavior": "ui-dashboard-page",
+   "intent": "Tests that the page is self-contained, pinned by its own CSP hashes, and renders untrusted strings as text only"
+  },
+  "a14": {
+   "behavior": "ui-command",
+   "intent": "Tests that drive treekeeper ui in-process: the JSON report, port validation, the loopback bind, the abort signal and the log-free context"
+  },
+  "a15": {
+   "behavior": "ui-server",
+   "intent": "Tests that drive the dashboard server over a real loopback socket with stubbed data sources"
+  },
+  "a16": {
+   "behavior": "ui-disk-usage",
+   "intent": "Tests for volume deduplication, per-repo usage rows from a plan, and the end-to-end usage report on a real repo"
+  },
+  "a17": {
+   "behavior": "ui-disk-usage",
+   "intent": "A test that the package entry point re-exports the usage report builders"
+  }
+ },
+ "behaviors": {
+  "ui-command": {
+   "id": "ui-command",
+   "title": "Run the dashboard with treekeeper ui",
+   "description": "The ui command: starts the read-only dashboard on 127.0.0.1 (OS-picked port unless --port), prints the URL, opens the browser unless --no-open, and runs until SIGINT or SIGTERM. With --json it prints the removal history report and exits without starting a server."
+  },
+  "ui-removal-history": {
+   "id": "ui-removal-history",
+   "title": "Summarize what treekeeper removed from the event log",
+   "description": "Reads reclaim and branch-delete events out of the JSONL log and turns them into totals, a per-repo breakdown, a per-day series and a list of removals for a chosen range (7 days, 30 days, all time)."
+  },
+  "ui-disk-usage": {
+   "id": "ui-disk-usage",
+   "title": "Report current disk usage per volume and per repo",
+   "description": "Measures the volumes holding the configured roots and, per repo, how many linked worktrees exist, how much disk they occupy and how much of that a sweep could reclaim right now. Read-only: it plans, it never applies."
+  },
+  "ui-dashboard-page": {
+   "id": "ui-dashboard-page",
+   "title": "Show removal history, disk usage and daemon state on one page",
+   "description": "The dashboard document: headline numbers, per-repo table, per-day chart and removals list for the chosen range, then current disk usage and the daemon line. Self-contained, light and dark, and every dynamic string reaches the DOM as text."
+  },
+  "ui-server": {
+   "id": "ui-server",
+   "title": "Serve the dashboard read-only on 127.0.0.1",
+   "description": "The HTTP server behind treekeeper ui: the page, a JSON history endpoint and a JSON current-usage endpoint, GET and HEAD only. It refuses any Host other than 127.0.0.1 or localhost on its own port, sends a locked-down Content-Security-Policy, and measures current usage once at a time and caches it."
+  }
+ },
+ "links": [
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::parseLogLine > reads a removed worktree out of a reclaim line",
+   "says": "A reclaim line in the log becomes one worktree removal carrying its time, repo, path, branch, size, reason and whether the work was archived first."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::parseLogLine > reads a pruned branch as a removal that freed no disk and has no path",
+   "says": "A branch-delete line becomes a branch removal with no path and a size of zero, so pruning branches never inflates the space-reclaimed figure."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::parseLogLine > ignores every log line that is not a removal",
+   "says": "Debug lines, warnings and other event types are not counted as removals, including a skip event whose text happens to mention reclaim."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::parseLogLine > never throws on a log that ends mid-line: every truncation of a removal is skipped",
+   "says": "Every truncation of a removal line yields nothing instead of throwing, so a log cut off mid-write cannot break the report."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::parseLogLine > never throws on malformed, hostile or wrongly typed lines",
+   "says": "Malformed JSON, wrong JSON shapes and wrongly typed fields all yield nothing instead of an exception."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::parseLogLine > counts a size it cannot trust as zero rather than letting NaN into the totals",
+   "says": "A missing, negative or non-numeric size is read as zero, so no NaN can reach the totals."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::parseLogLine > keeps a detached worktree's removal, with no branch to show",
+   "says": "A worktree removed while detached is still counted, with no branch name."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::readRemovalEvents > reads every removal from a log of mostly unrelated lines, in file order",
+   "says": "The reader finds the removals in a log that is mostly unrelated lines and returns them in the order they were written."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::readRemovalEvents > reads the last removal of a log that ends without a newline",
+   "says": "A removal on the final, unterminated line of the log is still counted."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::readRemovalEvents > skips a log truncated mid-line and keeps every removal before it",
+   "says": "A log that ends in a half-written line loses only that line."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::readRemovalEvents > reads removals that straddle the stream's 1 MB chunk boundary, multi-byte names included",
+   "says": "Removals that land on the read buffer boundary, multi-byte branch names included, are read whole and in order."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::readRemovalEvents > treats a log that does not exist yet as an empty history, not an error",
+   "says": "With no log on disk the history is empty rather than an error."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::buildHistoryReport > counts a range as whole calendar days ending today",
+   "says": "A range is a whole number of calendar days ending today, so 7d is today plus the six days before it and an event a millisecond earlier is outside it."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::buildHistoryReport > cuts days at the given UTC offset instead of at UTC",
+   "says": "Calendar days are cut at the report UTC offset, so an event at 02:30Z belongs to the previous day for a machine eight hours west."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::buildHistoryReport > keeps empty days in the per-day series, so the chart has no gaps",
+   "says": "Days on which nothing was removed still appear in the per-day series, with zeros."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::buildHistoryReport > excludes events in the future of now",
+   "says": "An event dated later than now is left out of the report."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::buildHistoryReport > caps the list of removals without losing them from the totals",
+   "says": "When the list is capped it keeps the newest removals and counts the remainder as omitted, while the totals and the per-day series still count every removal."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::buildHistoryReport > lists removed worktrees newest first, with the repo name, path, reason and archive flag",
+   "says": "The removal list is newest first and carries each removal repo name, path, branch, size, reason and archive flag; branch deletions are not listed as worktrees."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::buildHistoryReport > breaks the range down by repo, largest reclaim first, with each repo's last removal",
+   "says": "Per-repo rows carry worktrees removed, space reclaimed and branches deleted, ordered by space reclaimed, each with the time of its most recent removal."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::buildHistoryReport > reports the whole log for the all-time range, and says when nothing was ever removed",
+   "says": "The all-time range starts on the day of the oldest removal, and a log with no removal at all reports zero totals, a null start and an empty series."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::buildHistoryReport > dates the log from the oldest removal even when the range is shorter",
+   "says": "The report says when the record starts even when that oldest removal falls outside the range."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::buildHistoryReport > is reachable from the package entry point, for a harness that reports in-process",
+   "says": "The log reader and the report builder are exported from the package entry point."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::buildHistoryReport > accepts only the three ranges the dashboard offers",
+   "says": "Only 7d, 30d and all are accepted as a range."
+  },
+  {
+   "behavior": "ui-removal-history",
+   "test": "test/history.test.ts::buildHistoryReport > counts exactly the same events in the totals, the repo rows, the per-day series and the list",
+   "says": "Across 150 generated logs and every combination of range, UTC offset and list cap, the totals, the per-repo rows, the per-day series and the removal list all count exactly the events that fall in the window, and that window is always contiguous calendar days ending today with nothing from the future."
+  },
+  {
+   "behavior": "ui-disk-usage",
+   "test": "test/usage.test.ts::readVolumes > reports total, used and free space for the volume behind a root",
+   "says": "For the volume behind a root, total and used come from the filesystem blocks while free is what an unprivileged user may still take."
+  },
+  {
+   "behavior": "ui-disk-usage",
+   "test": "test/usage.test.ts::readVolumes > reports one volume once, however many roots live on it",
+   "says": "Roots that share a volume are reported as one volume listing them all, and a root named twice is listed once."
+  },
+  {
+   "behavior": "ui-disk-usage",
+   "test": "test/usage.test.ts::readVolumes > leaves out a root that cannot be read instead of failing the report",
+   "says": "A root that cannot be read is left out rather than failing the whole report."
+  },
+  {
+   "behavior": "ui-disk-usage",
+   "test": "test/usage.test.ts::readVolumes > never reports negative use when a filesystem reports more free than total",
+   "says": "A filesystem that reports more free blocks than it has never produces negative use."
+  },
+  {
+   "behavior": "ui-disk-usage",
+   "test": "test/usage.test.ts::readVolumes > has no volume to report when no root exists",
+   "says": "With no readable root there is no volume to report."
+  },
+  {
+   "behavior": "ui-disk-usage",
+   "test": "test/usage.test.ts::summarizeUsage > counts the linked worktrees of a repo, their size, and what is reclaimable now",
+   "says": "Each repo row counts its linked worktrees, the disk they occupy, how many are reclaimable now and the size of those, plus the branches a sweep would prune on their own."
+  },
+  {
+   "behavior": "ui-disk-usage",
+   "test": "test/usage.test.ts::summarizeUsage > takes the size of a worktree the plan did not measure from the injected sizes",
+   "says": "A worktree the plan did not size is sized from the separately measured sizes."
+  },
+  {
+   "behavior": "ui-disk-usage",
+   "test": "test/usage.test.ts::summarizeUsage > keeps a worktree it could not measure out of the sizes without corrupting them",
+   "says": "A worktree whose size could not be measured is counted as unmeasured and adds nothing to any size, leaving every total finite and equal to what was measured."
+  },
+  {
+   "behavior": "ui-disk-usage",
+   "test": "test/usage.test.ts::summarizeUsage > leaves each repo's own checkout out of the counts, so its worktrees are not counted twice",
+   "says": "A repo main checkout is excluded from the counts and sizes, so worktrees living inside it are not counted twice."
+  },
+  {
+   "behavior": "ui-disk-usage",
+   "test": "test/usage.test.ts::summarizeUsage > sets a skipped repo aside with its reason and counts none of it",
+   "says": "A repo the plan skipped is reported separately with its reason and counted in no total."
+  },
+  {
+   "behavior": "ui-disk-usage",
+   "test": "test/usage.test.ts::summarizeUsage > puts the repos that hold the most disk first",
+   "says": "Repo rows are ordered with the largest on disk first, then by worktrees, branches and name."
+  },
+  {
+   "behavior": "ui-disk-usage",
+   "test": "test/usage.test.ts::summarizeUsage > is reachable from the package entry point, alongside the plan it summarizes",
+   "says": "The usage report builder, the plan summarizer and the volume reader are exported from the package entry point."
+  },
+  {
+   "behavior": "ui-disk-usage",
+   "test": "test/usage.test.ts::summarizeUsage > always has totals that are the sum of the rows it shows",
+   "says": "Over 25 mixed repos, measured and unmeasured, the totals are exactly the sum of the rows shown and no row claims more reclaimable than it holds."
+  },
+  {
+   "behavior": "ui-disk-usage",
+   "test": "test/usage.test.ts::buildUsageReport on a real repo > reports every linked worktree with its size, and leaves them all on disk",
+   "says": "On a real repo with four linked worktrees the report sizes each one without sizing the main checkout, counts the two that are reclaimable and the branch to prune, reads the volume, and leaves every worktree on disk with no archive written."
+  },
+  {
+   "behavior": "ui-disk-usage",
+   "test": "test/usage.test.ts::buildUsageReport on a real repo > gives up a measurement that is aborted mid-flight",
+   "says": "An aborted measurement rejects instead of running on."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard document > is one self-contained document: one inline stylesheet, one inline script, no other resource",
+   "says": "The page is one document with exactly one inline stylesheet and one inline script and no other resource: no stylesheet link, no script src, no image, iframe or media element, no font-face and no CSS import or url()."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard document > names no host but its own: every URL in the page is a data: or same-origin path",
+   "says": "The only URL-bearing attribute in the document is a data: favicon, the only absolute URL anywhere is the SVG namespace identifier, and the single fetch can build no address but the two JSON paths on the server that served the page."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard document > pins the exact stylesheet and script it ships, by hash, under a default-src of none",
+   "says": "The policy pins the exact stylesheet and script the document ships, by sha256 of the text actually embedded, under default-src none with connect-src self and no unsafe directive, so a stale hash cannot pass unnoticed."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard document > has no way to turn a string into markup, and no way to run one",
+   "says": "The script contains no innerHTML, outerHTML, insertAdjacentHTML, document.write, eval or Function, and puts dynamic text in through textContent."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard script, run over a DOM > asks its own server for the history and the usage, and nothing else",
+   "says": "Loading the page issues exactly two requests, for the history and the current usage, both to the serving origin."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard script, run over a DOM > shows the removal totals, the repo rows, the per-day chart and the removal list",
+   "says": "Given a history payload the page renders the reclaimed total, the worktree, branch and repo counts, a row per repo, an inline SVG chart with one bar per day that reclaimed something and one hit target per day of the range, the removal list, and the daemon line with its interval, last sweep and sweep count."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard script, run over a DOM > puts untrusted branch names, paths and reasons into the page as text, never as markup",
+   "says": "Hostile branch names, paths and reasons reach the page as text and attribute values only: assigning markup to any node throws, the serialized page carries them escaped with no attribute able to close its own tag, and none of the elements they asked for exists."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard script, run over a DOM > reloads the history for another range when the range is changed",
+   "says": "Choosing another range reloads the history for that range and moves the pressed state, and choosing the range already shown asks the server for nothing."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard script, run over a DOM > groups a long range into wider bars so the chart stays readable",
+   "says": "A 400-day range is grouped into weekly bars, each labelled with the span of days it covers."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard script, run over a DOM > offers the rest of a long removal list, and says what the cap left out",
+   "says": "A long removal list is shown 50 rows at a time and extended from data already loaded, and the removals the server cap left out are reported as counted but not listed."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard script, run over a DOM > shows the volumes, the per-repo worktrees and what is reclaimable now",
+   "says": "The usage half shows each volume used, total and free with a meter and a low-space warning, the worktree and reclaimable totals, a per-repo table with unmeasured worktrees and a totals row, the quiet repos, the skipped repos, the warnings, and the reminder that nothing on the page removes anything."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard script, run over a DOM > re-measures the usage only when asked, and says so while it waits",
+   "says": "Usage is measured once when the page loads and measured again only when refresh is pressed."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard script, run over a DOM > says nothing has been removed yet when the log holds no removal",
+   "says": "With no removal on record the page says so and names the log file instead of showing empty tiles."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard script, run over a DOM > reports a range with only branch deletions instead of an empty chart",
+   "says": "A range in which only branches were deleted says so rather than showing an empty removal list."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard script, run over a DOM > says which half of the page failed when a data source does not answer",
+   "says": "When a data source answers with an error the page names which half failed and why, and leaves the refresh button usable."
+  },
+  {
+   "behavior": "ui-dashboard-page",
+   "test": "test/page.test.ts::the dashboard script, run over a DOM > survives a response that is not JSON at all",
+   "says": "A reply that is not JSON is reported as an unreadable response with its status code, not a blank page."
+  },
+  {
+   "behavior": "ui-server",
+   "test": "test/ui-server.test.ts::createUiServer > serves the dashboard document itself, with the policy that pins its script",
+   "says": "GET / returns the dashboard document byte for byte, with the policy that pins its script, nosniff, framing denied, no referrer, same-origin resource policy and no-store."
+  },
+  {
+   "behavior": "ui-server",
+   "test": "test/ui-server.test.ts::createUiServer > answers a HEAD with the headers and no body",
+   "says": "A HEAD request gets the headers, content length included, and no body."
+  },
+  {
+   "behavior": "ui-server",
+   "test": "test/ui-server.test.ts::createUiServer > answers the history route with the report for the range asked for",
+   "says": "GET /api/history returns the history report for the range asked for, all time by default, together with the daemon state and the path of the log it was read from."
+  },
+  {
+   "behavior": "ui-server",
+   "test": "test/ui-server.test.ts::createUiServer > refuses a range it does not offer, before reading anything",
+   "says": "A range the dashboard does not offer is refused with 400 and a JSON error that names the three it does, before any data source is read."
+  },
+  {
+   "behavior": "ui-server",
+   "test": "test/ui-server.test.ts::createUiServer > answers the usage route with the measured report",
+   "says": "GET /api/usage returns the measured usage report."
+  },
+  {
+   "behavior": "ui-server",
+   "test": "test/ui-server.test.ts::createUiServer > still serves the history when the daemon state cannot be read",
+   "says": "When the daemon state cannot be read the history is still served, with a null daemon."
+  },
+  {
+   "behavior": "ui-server",
+   "test": "test/ui-server.test.ts::createUiServer > is read-only: it offers three GET routes and refuses every other method",
+   "says": "The server offers three GET routes and nothing else: every other method, on its own paths or on invented ones like /apply, is refused with 405 and Allow GET, HEAD without reading anything, and the module itself has no apply, archive, prune, child process or filesystem write within reach."
+  },
+  {
+   "behavior": "ui-server",
+   "test": "test/ui-server.test.ts::createUiServer > answers an unknown path with 404",
+   "says": "An unknown path is answered with 404."
+  },
+  {
+   "behavior": "ui-server",
+   "test": "test/ui-server.test.ts::createUiServer > refuses a request that did not address this loopback server by name",
+   "says": "A request whose Host is not this server loopback address and port is refused with 403 - another hostname, the right address on the wrong port, an address with no port, an empty Host, no Host at all - while 127.0.0.1 and localhost on the right port are served whatever their case."
+  },
+  {
+   "behavior": "ui-server",
+   "test": "test/ui-server.test.ts::createUiServer > listens on the loopback address only",
+   "says": "The server is bound to the IPv4 loopback address only, and nothing answers on the machine own LAN address at that port."
+  },
+  {
+   "behavior": "ui-server",
+   "test": "test/ui-server.test.ts::createUiServer > measures usage once for requests that arrive together, then serves it from cache",
+   "says": "Five concurrent usage requests share one measurement and all get its result; inside the TTL the cached report answers; refresh=1 and the first request after the TTL each measure again."
+  },
+  {
+   "behavior": "ui-server",
+   "test": "test/ui-server.test.ts::createUiServer > turns a data source that fails into a 500 with a JSON error, not a hung request",
+   "says": "A data source that throws becomes a 500 with a JSON error rather than a hung request, and a failed measurement is not cached, so the next request measures again."
+  },
+  {
+   "behavior": "ui-command",
+   "test": "test/ui-command.test.ts::treekeeper ui --json > prints the all-time removal history and starts no server",
+   "says": "ui --json prints the all-time removal history as indented JSON on stdout and starts no server at all."
+  },
+  {
+   "behavior": "ui-command",
+   "test": "test/ui-command.test.ts::treekeeper ui --json > never appends to the log it just read",
+   "says": "Running ui --json, even with verbose logging, leaves the log it read byte-identical."
+  },
+  {
+   "behavior": "ui-command",
+   "test": "test/ui-command.test.ts::treekeeper ui --json > is also what `treekeeper ui --json` on the command line runs",
+   "says": "The CLI routes treekeeper ui --json to that same report."
+  },
+  {
+   "behavior": "ui-command",
+   "test": "test/ui-command.test.ts::treekeeper ui --port > refuses a port that is not one, with exit 2 and no server",
+   "says": "A --port that is not a whole number from 0 to 65535 exits 2 with a message naming the range, and starts no server."
+  },
+  {
+   "behavior": "ui-command",
+   "test": "test/ui-command.test.ts::treekeeper ui --port > reports a port it cannot have instead of crashing",
+   "says": "A port that is already taken is reported on stderr with exit 1 rather than an unhandled error."
+  },
+  {
+   "behavior": "ui-command",
+   "test": "test/ui-command.test.ts::treekeeper ui > serves the dashboard on a loopback port and stops when it is asked to",
+   "says": "The command binds a loopback URL on an OS-chosen port, serves the dashboard document and the history of the configured log there, and the abort signal stops it: it returns 0, says it stopped, and the port then refuses connections."
+  },
+  {
+   "behavior": "ui-command",
+   "test": "test/ui-command.test.ts::treekeeper ui > leaves the browser alone with --no-open, and opens it without",
+   "says": "With --no-open the browser is never opened; without it the dashboard loopback URL is handed to the opener exactly once."
+  },
+  {
+   "behavior": "ui-command",
+   "test": "test/ui-command.test.ts::treekeeper ui > writes nothing to the log while the dashboard is up",
+   "says": "Starting the dashboard and reading the history through it leaves the log unchanged."
+  },
+  {
+   "behavior": "ui-command",
+   "test": "test/ui-command.test.ts::treekeeper ui > is a command the CLI offers, with its two flags",
+   "says": "The CLI help lists ui as a local read-only dashboard along with --port and --no-open, and an unknown flag on ui is a usage error rather than a server."
+  },
+  {
+   "behavior": "ui-command",
+   "test": "test/ui-command.test.ts::createContext > builds a logger that cannot write to the log file when logToFile is off",
+   "says": "createContext with logToFile off builds a logger that cannot write to the configured log file, while the default logger does append to it, so a command that reports on the log never grows it."
+  }
+ ],
+ "sessions": [
+  "7a4fe7ee-91de-4f39-add3-b2635621cf6b.ab84ace33654cd118",
+  "7a4fe7ee-91de-4f39-add3-b2635621cf6b.aa49ae2d036b4a099",
+  "7a4fe7ee-91de-4f39-add3-b2635621cf6b.abcb6f7418ae6d4be"
+ ]
+}
