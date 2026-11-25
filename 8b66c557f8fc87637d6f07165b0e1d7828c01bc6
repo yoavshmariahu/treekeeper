@@ -9,8 +9,8 @@
  "evidence": {
   "tree": "68e50ddf8f16a51530ae3242ce65fc75d98ea748",
   "command": "npx vitest run --reporter=json --outputFile={report}",
-  "finishedAt": "2026-11-25T00:13:38.995Z",
-  "durationMs": 18528,
+  "finishedAt": "2026-11-25T01:10:38.010Z",
+  "durationMs": 25551,
   "results": [
    {
     "id": "test/apply.test.ts::applyPlan > removes merged worktrees and leaves unmerged ones alone",
@@ -22,7 +22,7 @@
     "line": 65,
     "endLine": 79,
     "status": "passed",
-    "durationMs": 2801.7912079999996
+    "durationMs": 2993.586083
    },
    {
     "id": "test/apply.test.ts::applyPlan > deregisters the worktrees it removed",
@@ -34,7 +34,7 @@
     "line": 81,
     "endLine": 85,
     "status": "passed",
-    "durationMs": 1322.183834
+    "durationMs": 1879.4343329999997
    },
    {
     "id": "test/apply.test.ts::applyPlan > deletes the branch of every removed worktree, plus merged orphan branches",
@@ -46,7 +46,7 @@
     "line": 87,
     "endLine": 91,
     "status": "passed",
-    "durationMs": 1250.1990839999999
+    "durationMs": 3926.2567500000005
    },
    {
     "id": "test/apply.test.ts::applyPlan > archives uncommitted and untracked work before removing it",
@@ -58,7 +58,7 @@
     "line": 93,
     "endLine": 112,
     "status": "passed",
-    "durationMs": 1258.1974999999993
+    "durationMs": 2957.541833000001
    },
    {
     "id": "test/apply.test.ts::applyPlan > writes a record even when nothing unique was at stake",
@@ -70,7 +70,7 @@
     "line": 114,
     "endLine": 122,
     "status": "passed",
-    "durationMs": 1218.9561670000003
+    "durationMs": 1428.3746250000004
    },
    {
     "id": "test/apply.test.ts::applyPlan > leaves an abandoned branch alone when there is no pull-request data",
@@ -82,7 +82,7 @@
     "line": 124,
     "endLine": 128,
     "status": "passed",
-    "durationMs": 1218.8479580000003
+    "durationMs": 1459.0960830000004
    },
    {
     "id": "test/apply.test.ts::applyPlan > reclaims a squash-merged branch that git ancestry cannot see",
@@ -94,7 +94,7 @@
     "line": 130,
     "endLine": 138,
     "status": "passed",
-    "durationMs": 1375.3619159999998
+    "durationMs": 1465.017417000001
    },
    {
     "id": "test/apply.test.ts::applyPlan > holds a closed pull request for the grace window, then archives its commits",
@@ -106,7 +106,7 @@
     "line": 140,
     "endLine": 163,
     "status": "passed",
-    "durationMs": 1552.4066669999993
+    "durationMs": 1740.229374999999
    },
    {
     "id": "test/apply.test.ts::applyPlan > archives extra local commits when a merged PR did not contain them",
@@ -118,7 +118,7 @@
     "line": 165,
     "endLine": 182,
     "status": "passed",
-    "durationMs": 1335.3253750000003
+    "durationMs": 1611.2011249999996
    },
    {
     "id": "test/apply.test.ts::applyPlan > refuses to act on a worktree that changed after the plan was built",
@@ -130,7 +130,7 @@
     "line": 184,
     "endLine": 201,
     "status": "passed",
-    "durationMs": 1157.4760000000006
+    "durationMs": 1670.82575
    },
    {
     "id": "test/apply.test.ts::applyPlan > logs an audit trail of everything it removed",
@@ -142,7 +142,7 @@
     "line": 203,
     "endLine": 215,
     "status": "passed",
-    "durationMs": 1259.46025
+    "durationMs": 1274.499582999997
    },
    {
     "id": "test/apply.test.ts::applyPlan > is a no-op the second time",
@@ -154,7 +154,7 @@
     "line": 217,
     "endLine": 223,
     "status": "passed",
-    "durationMs": 1477.0923330000005
+    "durationMs": 1462.5309159999997
    },
    {
     "id": "test/config.test.ts::loadConfig > returns defaults when there is no file",
@@ -166,7 +166,7 @@
     "line": 15,
     "endLine": 19,
     "status": "passed",
-    "durationMs": 4.673207999999988
+    "durationMs": 89.43504200000001
    },
    {
     "id": "test/config.test.ts::loadConfig > merges a partial file over the defaults",
@@ -178,7 +178,7 @@
     "line": 21,
     "endLine": 27,
     "status": "passed",
-    "durationMs": 6.618458000000032
+    "durationMs": 28.427208000000064
    },
    {
     "id": "test/config.test.ts::loadConfig > tolerates comments and trailing commas",
@@ -190,7 +190,7 @@
     "line": 29,
     "endLine": 39,
     "status": "passed",
-    "durationMs": 8.192625000000021
+    "durationMs": 25.600665999999933
    },
    {
     "id": "test/config.test.ts::loadConfig > warns about unknown and mistyped options instead of crashing",
@@ -202,7 +202,7 @@
     "line": 41,
     "endLine": 47,
     "status": "passed",
-    "durationMs": 6.674249999999972
+    "durationMs": 18.954207999999994
    },
    {
     "id": "test/config.test.ts::loadConfig > rejects an invalid duration rather than treating it as zero",
@@ -214,7 +214,7 @@
     "line": 49,
     "endLine": 54,
     "status": "passed",
-    "durationMs": 14.649958000000026
+    "durationMs": 19.560541000000057
    },
    {
     "id": "test/config.test.ts::loadConfig > expands ~ in roots and the archive directory",
@@ -226,7 +226,7 @@
     "line": 56,
     "endLine": 60,
     "status": "passed",
-    "durationMs": 28.03641699999997
+    "durationMs": 8.724166999999966
    },
    {
     "id": "test/config.test.ts::loadConfig > falls back to defaults for malformed JSON",
@@ -238,7 +238,7 @@
     "line": 62,
     "endLine": 67,
     "status": "passed",
-    "durationMs": 5.702249999999992
+    "durationMs": 34.793624999999906
    },
    {
     "id": "test/config.test.ts::loadRepoConfig > layers a repo file over the parent config",
@@ -250,7 +250,7 @@
     "line": 71,
     "endLine": 77,
     "status": "passed",
-    "durationMs": 4.450124999999957
+    "durationMs": 17.908833000000072
    },
    {
     "id": "test/config.test.ts::loadRepoConfig > returns the parent untouched when the repo has no file",
@@ -262,7 +262,7 @@
     "line": 79,
     "endLine": 84,
     "status": "passed",
-    "durationMs": 2.2757500000000164
+    "durationMs": 2.2075829999999996
    },
    {
     "id": "test/decide.test.ts::decideWorktree — the happy path > reclaims a merged, idle, clean worktree",
@@ -274,7 +274,7 @@
     "line": 51,
     "endLine": 56,
     "status": "passed",
-    "durationMs": 1.4868339999999876
+    "durationMs": 1.4930410000000052
    },
    {
     "id": "test/decide.test.ts::decideWorktree — the happy path > reclaims a squash-merged branch via its pull request",
@@ -286,7 +286,7 @@
     "line": 58,
     "endLine": 62,
     "status": "passed",
-    "durationMs": 0.1645419999999831
+    "durationMs": 0.15979199999998173
    },
    {
     "id": "test/decide.test.ts::decideWorktree — things it must never touch > keeps the main worktree",
@@ -296,7 +296,7 @@
     ],
     "path": "test/decide.test.ts",
     "status": "passed",
-    "durationMs": 0.14083299999998644
+    "durationMs": 0.13154200000002447
    },
    {
     "id": "test/decide.test.ts::decideWorktree — things it must never touch > keeps the main worktree even with --force",
@@ -306,7 +306,7 @@
     ],
     "path": "test/decide.test.ts",
     "status": "passed",
-    "durationMs": 0.08558299999998553
+    "durationMs": 0.08491700000001856
    },
    {
     "id": "test/decide.test.ts::decideWorktree — things it must never touch > keeps a protected path",
@@ -316,7 +316,7 @@
     ],
     "path": "test/decide.test.ts",
     "status": "passed",
-    "durationMs": 0.08545800000001691
+    "durationMs": 0.08887499999997317
    },
    {
     "id": "test/decide.test.ts::decideWorktree — things it must never touch > keeps a protected path even with --force",
@@ -326,7 +326,7 @@
     ],
     "path": "test/decide.test.ts",
     "status": "passed",
-    "durationMs": 0.08312499999999545
+    "durationMs": 0.08887500000003001
    },
    {
     "id": "test/decide.test.ts::decideWorktree — things it must never touch > keeps the caller's cwd",
@@ -336,7 +336,7 @@
     ],
     "path": "test/decide.test.ts",
     "status": "passed",
-    "durationMs": 0.08679200000000264
+    "durationMs": 0.09212500000001
    },
    {
     "id": "test/decide.test.ts::decideWorktree — things it must never touch > keeps the caller's cwd even with --force",
@@ -346,7 +346,7 @@
     ],
     "path": "test/decide.test.ts",
     "status": "passed",
-    "durationMs": 0.061583000000041466
+    "durationMs": 0.06583299999999781
    },
    {
     "id": "test/decide.test.ts::decideWorktree — things it must never touch > keeps a locked worktree",
@@ -356,7 +356,7 @@
     ],
     "path": "test/decide.test.ts",
     "status": "passed",
-    "durationMs": 0.08145799999999781
+    "durationMs": 0.08020800000002737
    },
    {
     "id": "test/decide.test.ts::decideWorktree — things it must never touch > keeps a locked worktree even with --force",
@@ -366,7 +366,7 @@
     ],
     "path": "test/decide.test.ts",
     "status": "passed",
-    "durationMs": 0.0756659999999556
+    "durationMs": 0.07516599999996743
    },
    {
     "id": "test/decide.test.ts::decideWorktree — things it must never touch > keeps a detached HEAD",
@@ -376,7 +376,7 @@
     ],
     "path": "test/decide.test.ts",
     "status": "passed",
-    "durationMs": 0.07550000000003365
+    "durationMs": 0.07450000000000045
    },
    {
     "id": "test/decide.test.ts::decideWorktree — things it must never touch > keeps a detached HEAD even with --force",
@@ -386,7 +386,7 @@
     ],
     "path": "test/decide.test.ts",
     "status": "passed",
-    "durationMs": 0.05237499999998363
+    "durationMs": 0.054209000000014385
    },
    {
     "id": "test/decide.test.ts::decideWorktree — things it must never touch > keeps a protected branch",
@@ -396,7 +396,7 @@
     ],
     "path": "test/decide.test.ts",
     "status": "passed",
-    "durationMs": 0.08833300000003419
+    "durationMs": 0.08062499999999773
    },
    {
     "id": "test/decide.test.ts::decideWorktree — things it must never touch > keeps a protected branch even with --force",
@@ -406,7 +406,7 @@
     ],
     "path": "test/decide.test.ts",
     "status": "passed",
-    "durationMs": 0.05233299999997598
+    "durationMs": 0.050290999999958785
    },
    {
     "id": "test/decide.test.ts::decideWorktree — unfinished work > keeps an unmerged branch",
@@ -418,7 +418,7 @@
     "line": 89,
     "endLine": 93,
     "status": "passed",
-    "durationMs": 0.10099999999999909
+    "durationMs": 0.09145800000004556
    },
    {
     "id": "test/decide.test.ts::decideWorktree — unfinished work > keeps an unmerged branch even with --force",
@@ -430,7 +430,7 @@
     "line": 95,
     "endLine": 101,
     "status": "passed",
-    "durationMs": 0.07766699999996263
+    "durationMs": 0.08891599999998334
    },
    {
     "id": "test/decide.test.ts::decideWorktree — unfinished work > says so when the forge could not be consulted",
@@ -442,7 +442,7 @@
     "line": 103,
     "endLine": 106,
     "status": "passed",
-    "durationMs": 0.06154199999997445
+    "durationMs": 0.07333299999999099
    },
    {
     "id": "test/decide.test.ts::decideWorktree — unfinished work > keeps a branch with an open pull request",
@@ -454,7 +454,7 @@
     "line": 108,
     "endLine": 112,
     "status": "passed",
-    "durationMs": 0.09220800000002782
+    "durationMs": 0.0881249999999909
    },
    {
     "id": "test/decide.test.ts::decideWorktree — the in-use gates > keeps a worktree with recent agent activity",
@@ -466,7 +466,7 @@
     "line": 116,
     "endLine": 127,
     "status": "passed",
-    "durationMs": 0.16287499999998545
+    "durationMs": 0.17604199999999537
    },
    {
     "id": "test/decide.test.ts::decideWorktree — the in-use gates > keeps a worktree a process is sitting in",
@@ -478,7 +478,7 @@
     "line": 129,
     "endLine": 132,
     "status": "passed",
-    "durationMs": 0.06024999999999636
+    "durationMs": 0.06391699999994671
    },
    {
     "id": "test/decide.test.ts::decideWorktree — the in-use gates > keeps a worktree touched inside minAge",
@@ -490,7 +490,7 @@
     "line": 134,
     "endLine": 137,
     "status": "passed",
-    "durationMs": 0.07208300000002055
+    "durationMs": 0.07508300000000645
    },
    {
     "id": "test/decide.test.ts::decideWorktree — the in-use gates > --force overrides only the age gate, not an active session",
@@ -502,7 +502,7 @@
     "line": 139,
     "endLine": 148,
     "status": "passed",
-    "durationMs": 0.12216700000004721
+    "durationMs": 0.11458300000003874
    },
    {
     "id": "test/decide.test.ts::decideWorktree — uncommitted changes > archives and reclaims when onDirty is archive",
@@ -514,7 +514,7 @@
     "line": 152,
     "endLine": 156,
     "status": "passed",
-    "durationMs": 0.4974579999999946
+    "durationMs": 0.5283750000000396
    },
    {
     "id": "test/decide.test.ts::decideWorktree — uncommitted changes > keeps when onDirty is keep",
@@ -526,7 +526,7 @@
     "line": 158,
     "endLine": 162,
     "status": "passed",
-    "durationMs": 0.086749999999995
+    "durationMs": 0.083500000000015
    },
    {
     "id": "test/decide.test.ts::decideWorktree — uncommitted changes > keeps dirty and unmerged regardless of policy",
@@ -538,7 +538,7 @@
     "line": 164,
     "endLine": 171,
     "status": "passed",
-    "durationMs": 0.07562500000000227
+    "durationMs": 0.07145900000000438
    },
    {
     "id": "test/decide.test.ts::decideWorktree — merged PR with extra local commits > keeps by default",
@@ -550,7 +550,7 @@
     "line": 177,
     "endLine": 181,
     "status": "passed",
-    "durationMs": 0.07637500000004138
+    "durationMs": 0.07358299999998508
    },
    {
     "id": "test/decide.test.ts::decideWorktree — merged PR with extra local commits > archives and reclaims when configured to",
@@ -562,7 +562,7 @@
     "line": 183,
     "endLine": 187,
     "status": "passed",
-    "durationMs": 0.10987499999998818
+    "durationMs": 0.17445900000001302
    },
    {
     "id": "test/decide.test.ts::decideWorktree — closed, unmerged pull requests > holds for the grace window",
@@ -574,7 +574,7 @@
     "line": 191,
     "endLine": 197,
     "status": "passed",
-    "durationMs": 0.10462499999999864
+    "durationMs": 0.09808299999997416
    },
    {
     "id": "test/decide.test.ts::decideWorktree — closed, unmerged pull requests > reclaims once the grace window has passed, flagged for archiving",
@@ -586,7 +586,7 @@
     "line": 199,
     "endLine": 207,
     "status": "passed",
-    "durationMs": 0.1327500000000441
+    "durationMs": 0.12208299999997507
    },
    {
     "id": "test/decide.test.ts::decideWorktree — closed, unmerged pull requests > never reclaims when onClosedPr is keep",
@@ -598,7 +598,7 @@
     "line": 209,
     "endLine": 215,
     "status": "passed",
-    "durationMs": 0.0726659999999697
+    "durationMs": 0.07370900000000802
    },
    {
     "id": "test/decide.test.ts::decideBranch > deletes a merged branch with no worktree",
@@ -610,7 +610,7 @@
     "line": 231,
     "endLine": 233,
     "status": "passed",
-    "durationMs": 0.1792499999999677
+    "durationMs": 0.15499999999997272
    },
    {
     "id": "test/decide.test.ts::decideBranch > keeps the default, current, protected and still-checked-out branches",
@@ -622,7 +622,7 @@
     "line": 235,
     "endLine": 240,
     "status": "passed",
-    "durationMs": 0.11554200000000492
+    "durationMs": 0.11562500000002274
    },
    {
     "id": "test/decide.test.ts::decideBranch > keeps unmerged branches",
@@ -634,7 +634,7 @@
     "line": 242,
     "endLine": 246,
     "status": "passed",
-    "durationMs": 0.05833300000000463
+    "durationMs": 0.057249999999953616
    },
    {
     "id": "test/git.test.ts::parseWorktreeList > parses the main worktree, branches, detached and locked entries",
@@ -646,7 +646,7 @@
     "line": 5,
     "endLine": 38,
     "status": "passed",
-    "durationMs": 3.8924590000000308
+    "durationMs": 8.476583000000005
    },
    {
     "id": "test/git.test.ts::parseWorktreeList > handles a bare main repo and prunable entries",
@@ -658,7 +658,7 @@
     "line": 40,
     "endLine": 46,
     "status": "passed",
-    "durationMs": 0.3167909999999665
+    "durationMs": 0.4798749999999927
    },
    {
     "id": "test/git.test.ts::parseWorktreeList > returns nothing for empty input",
@@ -670,7 +670,7 @@
     "line": 48,
     "endLine": 50,
     "status": "passed",
-    "durationMs": 0.2339999999999236
+    "durationMs": 0.3889169999999922
    },
    {
     "id": "test/history.test.ts::parseLogLine > reads a removed worktree out of a reclaim line",
@@ -682,7 +682,7 @@
     "line": 86,
     "endLine": 98,
     "status": "passed",
-    "durationMs": 1.2883749999999736
+    "durationMs": 1.3015829999999937
    },
    {
     "id": "test/history.test.ts::parseLogLine > reads a pruned branch as a removal that freed no disk and has no path",
@@ -694,7 +694,7 @@
     "line": 100,
     "endLine": 107,
     "status": "passed",
-    "durationMs": 0.3123340000000212
+    "durationMs": 0.31962500000003047
    },
    {
     "id": "test/history.test.ts::parseLogLine > ignores every log line that is not a removal",
@@ -706,7 +706,7 @@
     "line": 109,
     "endLine": 111,
     "status": "passed",
-    "durationMs": 0.21974999999997635
+    "durationMs": 0.22654199999999491
    },
    {
     "id": "test/history.test.ts::parseLogLine > never throws on a log that ends mid-line: every truncation of a removal is skipped",
@@ -718,7 +718,7 @@
     "line": 113,
     "endLine": 122,
     "status": "passed",
-    "durationMs": 18.161541999999997
+    "durationMs": 19.728917000000024
    },
    {
     "id": "test/history.test.ts::parseLogLine > never throws on malformed, hostile or wrongly typed lines",
@@ -730,7 +730,7 @@
     "line": 124,
     "endLine": 147,
     "status": "passed",
-    "durationMs": 0.7694590000000403
+    "durationMs": 0.9089579999999842
    },
    {
     "id": "test/history.test.ts::parseLogLine > counts a size it cannot trust as zero rather than letting NaN into the totals",
@@ -742,7 +742,7 @@
     "line": 149,
     "endLine": 155,
     "status": "passed",
-    "durationMs": 0.23475000000001955
+    "durationMs": 0.484375
    },
    {
     "id": "test/history.test.ts::parseLogLine > keeps a detached worktree's removal, with no branch to show",
@@ -754,7 +754,7 @@
     "line": 157,
     "endLine": 160,
     "status": "passed",
-    "durationMs": 0.09808400000002848
+    "durationMs": 0.17762500000003456
    },
    {
     "id": "test/history.test.ts::readRemovalEvents > reads every removal from a log of mostly unrelated lines, in file order",
@@ -766,7 +766,7 @@
     "line": 164,
     "endLine": 172,
     "status": "passed",
-    "durationMs": 6.740499999999997
+    "durationMs": 7.591417000000035
    },
    {
     "id": "test/history.test.ts::readRemovalEvents > reads the last removal of a log that ends without a newline",
@@ -778,7 +778,7 @@
     "line": 174,
     "endLine": 179,
     "status": "passed",
-    "durationMs": 2.8633330000000115
+    "durationMs": 3.115250000000003
    },
    {
     "id": "test/history.test.ts::readRemovalEvents > skips a log truncated mid-line and keeps every removal before it",
@@ -790,7 +790,7 @@
     "line": 181,
     "endLine": 187,
     "status": "passed",
-    "durationMs": 2.391666999999984
+    "durationMs": 2.5381249999999795
    },
    {
     "id": "test/history.test.ts::readRemovalEvents > reads removals that straddle the stream's 1 MB chunk boundary, multi-byte names included",
@@ -802,7 +802,7 @@
     "line": 189,
     "endLine": 208,
     "status": "passed",
-    "durationMs": 74.373084
+    "durationMs": 97.90658299999996
    },
    {
     "id": "test/history.test.ts::readRemovalEvents > treats a log that does not exist yet as an empty history, not an error",
@@ -814,7 +814,7 @@
     "line": 210,
     "endLine": 214,
     "status": "passed",
-    "durationMs": 1.5651250000000232
+    "durationMs": 1.2057499999999663
    },
    {
     "id": "test/history.test.ts::buildHistoryReport > counts a range as whole calendar days ending today",
@@ -826,7 +826,7 @@
     "line": 218,
     "endLine": 228,
     "status": "passed",
-    "durationMs": 1.7863330000000133
+    "durationMs": 1.4387499999999136
    },
    {
     "id": "test/history.test.ts::buildHistoryReport > cuts days at the given UTC offset instead of at UTC",
@@ -838,7 +838,7 @@
     "line": 230,
     "endLine": 240,
     "status": "passed",
-    "durationMs": 0.28291600000000017
+    "durationMs": 0.2628750000000082
    },
    {
     "id": "test/history.test.ts::buildHistoryReport > keeps empty days in the per-day series, so the chart has no gaps",
@@ -850,7 +850,7 @@
     "line": 242,
     "endLine": 255,
     "status": "passed",
-    "durationMs": 0.23424999999997453
+    "durationMs": 0.22225000000003092
    },
    {
     "id": "test/history.test.ts::buildHistoryReport > excludes events in the future of now",
@@ -862,7 +862,7 @@
     "line": 257,
     "endLine": 264,
     "status": "passed",
-    "durationMs": 0.22658400000000256
+    "durationMs": 0.22108300000002146
    },
    {
     "id": "test/history.test.ts::buildHistoryReport > caps the list of removals without losing them from the totals",
@@ -874,7 +874,7 @@
     "line": 266,
     "endLine": 283,
     "status": "passed",
-    "durationMs": 1.6132499999999936
+    "durationMs": 1.7629579999999123
    },
    {
     "id": "test/history.test.ts::buildHistoryReport > lists removed worktrees newest first, with the repo name, path, reason and archive flag",
@@ -886,7 +886,7 @@
     "line": 285,
     "endLine": 304,
     "status": "passed",
-    "durationMs": 0.1872500000000059
+    "durationMs": 0.20524999999997817
    },
    {
     "id": "test/history.test.ts::buildHistoryReport > breaks the range down by repo, largest reclaim first, with each repo's last removal",
@@ -898,7 +898,7 @@
     "line": 306,
     "endLine": 322,
     "status": "passed",
-    "durationMs": 0.20729199999999537
+    "durationMs": 0.212833000000046
    },
    {
     "id": "test/history.test.ts::buildHistoryReport > reports the whole log for the all-time range, and says when nothing was ever removed",
@@ -910,7 +910,7 @@
     "line": 324,
     "endLine": 341,
     "status": "passed",
-    "durationMs": 0.5569169999999986
+    "durationMs": 0.5723339999999553
    },
    {
     "id": "test/history.test.ts::buildHistoryReport > dates the log from the oldest removal even when the range is shorter",
@@ -922,7 +922,7 @@
     "line": 343,
     "endLine": 349,
     "status": "passed",
-    "durationMs": 0.10679199999998445
+    "durationMs": 0.10658300000000054
    },
    {
     "id": "test/history.test.ts::buildHistoryReport > is reachable from the package entry point, for a harness that reports in-process",
@@ -934,7 +934,7 @@
     "line": 351,
     "endLine": 359,
     "status": "passed",
-    "durationMs": 44.88524999999993
+    "durationMs": 47.49866600000007
    },
    {
     "id": "test/history.test.ts::buildHistoryReport > accepts only the three ranges the dashboard offers",
@@ -946,7 +946,7 @@
     "line": 361,
     "endLine": 366,
     "status": "passed",
-    "durationMs": 0.23512499999992542
+    "durationMs": 0.1608329999999114
    },
    {
     "id": "test/history.test.ts::buildHistoryReport > counts exactly the same events in the totals, the repo rows, the per-day series and the list",
@@ -958,7 +958,7 @@
     "line": 368,
     "endLine": 451,
     "status": "passed",
-    "durationMs": 335.15158399999996
+    "durationMs": 483.632291
    },
    {
     "id": "test/page.test.ts::the dashboard document > is one self-contained document: one inline stylesheet, one inline script, no other resource",
@@ -970,7 +970,7 @@
     "line": 21,
     "endLine": 21,
     "status": "passed",
-    "durationMs": 2.0781670000000076
+    "durationMs": 2.089999999999975
    },
    {
     "id": "test/page.test.ts::the dashboard document > names no host but its own: every URL in the page is a data: or same-origin path",
@@ -982,7 +982,7 @@
     "line": 33,
     "endLine": 33,
     "status": "passed",
-    "durationMs": 1.2767499999999927
+    "durationMs": 1.5373330000000465
    },
    {
     "id": "test/page.test.ts::the dashboard document > pins the exact stylesheet and script it ships, by hash, under a default-src of none",
@@ -994,7 +994,7 @@
     "line": 52,
     "endLine": 65,
     "status": "passed",
-    "durationMs": 0.4970830000000319
+    "durationMs": 0.5283750000000396
    },
    {
     "id": "test/page.test.ts::the dashboard document > has no way to turn a string into markup, and no way to run one",
@@ -1006,7 +1006,7 @@
     "line": 67,
     "endLine": 67,
     "status": "passed",
-    "durationMs": 0.41654199999999264
+    "durationMs": 0.4187500000000455
    },
    {
     "id": "test/page.test.ts::the dashboard script, run over a DOM > asks its own server for the history and the usage, and nothing else",
@@ -1018,7 +1018,7 @@
     "line": 234,
     "endLine": 237,
     "status": "passed",
-    "durationMs": 29.736208999999974
+    "durationMs": 45.083290999999974
    },
    {
     "id": "test/page.test.ts::the dashboard script, run over a DOM > shows the removal totals, the repo rows, the per-day chart and the removal list",
@@ -1030,7 +1030,7 @@
     "line": 239,
     "endLine": 280,
     "status": "passed",
-    "durationMs": 13.305875000000015
+    "durationMs": 14.331957999999986
    },
    {
     "id": "test/page.test.ts::the dashboard script, run over a DOM > puts untrusted branch names, paths and reasons into the page as text, never as markup",
@@ -1042,7 +1042,7 @@
     "line": 282,
     "endLine": 309,
     "status": "passed",
-    "durationMs": 18.37704100000002
+    "durationMs": 22.66195799999997
    },
    {
     "id": "test/page.test.ts::the dashboard script, run over a DOM > reloads the history for another range when the range is changed",
@@ -1054,7 +1054,7 @@
     "line": 311,
     "endLine": 325,
     "status": "passed",
-    "durationMs": 30.731333000000006
+    "durationMs": 37.53258400000004
    },
    {
     "id": "test/page.test.ts::the dashboard script, run over a DOM > groups a long range into wider bars so the chart stays readable",
@@ -1066,7 +1066,7 @@
     "line": 327,
     "endLine": 342,
     "status": "passed",
-    "durationMs": 11.310749999999985
+    "durationMs": 9.87012500000003
    },
    {
     "id": "test/page.test.ts::the dashboard script, run over a DOM > offers the rest of a long removal list, and says what the cap left out",
@@ -1078,7 +1078,7 @@
     "line": 344,
     "endLine": 362,
     "status": "passed",
-    "durationMs": 13.033209
+    "durationMs": 11.483665999999971
    },
    {
     "id": "test/page.test.ts::the dashboard script, run over a DOM > shows the volumes, the per-repo worktrees and what is reclaimable now",
@@ -1090,7 +1090,7 @@
     "line": 364,
     "endLine": 470,
     "status": "passed",
-    "durationMs": 11.410292000000027
+    "durationMs": 11.161666999999966
    },
    {
     "id": "test/page.test.ts::the dashboard script, run over a DOM > re-measures the usage only when asked, and says so while it waits",
@@ -1102,7 +1102,7 @@
     "line": 401,
     "endLine": 412,
     "status": "passed",
-    "durationMs": 21.820832999999993
+    "durationMs": 20.856415999999967
    },
    {
     "id": "test/page.test.ts::the dashboard script, run over a DOM > says nothing has been removed yet when the log holds no removal",
@@ -1114,7 +1114,7 @@
     "line": 414,
     "endLine": 427,
     "status": "passed",
-    "durationMs": 12.54200000000003
+    "durationMs": 10.985625000000027
    },
    {
     "id": "test/page.test.ts::the dashboard script, run over a DOM > reports a range with only branch deletions instead of an empty chart",
@@ -1126,7 +1126,7 @@
     "line": 429,
     "endLine": 446,
     "status": "passed",
-    "durationMs": 13.793874999999957
+    "durationMs": 11.990207999999939
    },
    {
     "id": "test/page.test.ts::the dashboard script, run over a DOM > says which half of the page failed when a data source does not answer",
@@ -1138,7 +1138,7 @@
     "line": 448,
     "endLine": 463,
     "status": "passed",
-    "durationMs": 14.584790999999996
+    "durationMs": 8.298166999999921
    },
    {
     "id": "test/page.test.ts::the dashboard script, run over a DOM > survives a response that is not JSON at all",
@@ -1150,7 +1150,7 @@
     "line": 465,
     "endLine": 469,
     "status": "passed",
-    "durationMs": 15.680583999999953
+    "durationMs": 10.931292000000099
    },
    {
     "id": "test/paths.test.ts::expandPath > expands a leading tilde",
@@ -1162,7 +1162,7 @@
     "line": 6,
     "endLine": 9,
     "status": "passed",
-    "durationMs": 6.893583000000035
+    "durationMs": 17.664291999999932
    },
    {
     "id": "test/paths.test.ts::expandPath > leaves absolute paths alone and resolves relative ones",
@@ -1174,7 +1174,7 @@
     "line": 10,
     "endLine": 13,
     "status": "passed",
-    "durationMs": 0.22845799999993233
+    "durationMs": 1.7017090000000508
    },
    {
     "id": "test/paths.test.ts::expandPath > does not treat ~foo as a home directory",
@@ -1186,7 +1186,7 @@
     "line": 14,
     "endLine": 16,
     "status": "passed",
-    "durationMs": 0.1630840000000262
+    "durationMs": 0.5106249999998909
    },
    {
     "id": "test/paths.test.ts::shortenPath > collapses the home directory",
@@ -1198,7 +1198,7 @@
     "line": 20,
     "endLine": 23,
     "status": "passed",
-    "durationMs": 0.21216600000002472
+    "durationMs": 4.539292000000046
    },
    {
     "id": "test/paths.test.ts::isInside > matches a directory and its descendants",
@@ -1210,7 +1210,7 @@
     "line": 27,
     "endLine": 30,
     "status": "passed",
-    "durationMs": 0.19833300000004783
+    "durationMs": 0.8957919999999149
    },
    {
     "id": "test/paths.test.ts::isInside > does not match a sibling with a shared prefix",
@@ -1222,7 +1222,7 @@
     "line": 31,
     "endLine": 34,
     "status": "passed",
-    "durationMs": 0.19170900000005986
+    "durationMs": 0.22550000000001091
    },
    {
     "id": "test/paths.test.ts::matchGlob > matches * within a path segment only",
@@ -1234,7 +1234,7 @@
     "line": 38,
     "endLine": 43,
     "status": "passed",
-    "durationMs": 0.4463749999999891
+    "durationMs": 1.2342080000000806
    },
    {
     "id": "test/paths.test.ts::matchGlob > matches ** across segments",
@@ -1246,7 +1246,7 @@
     "line": 44,
     "endLine": 47,
     "status": "passed",
-    "durationMs": 0.2133330000000342
+    "durationMs": 0.8482500000000073
    },
    {
     "id": "test/paths.test.ts::matchGlob > escapes regex metacharacters",
@@ -1258,7 +1258,7 @@
     "line": 48,
     "endLine": 51,
     "status": "passed",
-    "durationMs": 0.22391700000002857
+    "durationMs": 7.2983749999999645
    },
    {
     "id": "test/plan.test.ts::discoverRepos > finds the main repo once, from the clone and from its worktrees",
@@ -1270,7 +1270,7 @@
     "line": 52,
     "endLine": 55,
     "status": "passed",
-    "durationMs": 106.16449999999986
+    "durationMs": 48.18274999999994
    },
    {
     "id": "test/plan.test.ts::buildPlan on a real repo > keeps the main worktree",
@@ -1282,7 +1282,7 @@
     "line": 59,
     "endLine": 64,
     "status": "passed",
-    "durationMs": 286.91216699999995
+    "durationMs": 290.65779099999963
    },
    {
     "id": "test/plan.test.ts::buildPlan on a real repo > reclaims a worktree whose branch is merged into the default branch",
@@ -1294,7 +1294,7 @@
     "line": 66,
     "endLine": 71,
     "status": "passed",
-    "durationMs": 270.9175829999999
+    "durationMs": 568.8227499999998
    },
    {
     "id": "test/plan.test.ts::buildPlan on a real repo > keeps a worktree with unmerged commits",
@@ -1306,7 +1306,7 @@
     "line": 73,
     "endLine": 77,
     "status": "passed",
-    "durationMs": 230.834292
+    "durationMs": 423.92141600000014
    },
    {
     "id": "test/plan.test.ts::buildPlan on a real repo > keeps an unmerged worktree even with --force",
@@ -1318,7 +1318,7 @@
     "line": 79,
     "endLine": 89,
     "status": "passed",
-    "durationMs": 248.70862499999976
+    "durationMs": 276.39262499999995
    },
    {
     "id": "test/plan.test.ts::buildPlan on a real repo > flags a merged worktree with uncommitted changes for archiving",
@@ -1330,7 +1330,7 @@
     "line": 91,
     "endLine": 96,
     "status": "passed",
-    "durationMs": 244.31487500000003
+    "durationMs": 238.29870800000026
    },
    {
     "id": "test/plan.test.ts::buildPlan on a real repo > keeps the same worktree when onDirty is keep",
@@ -1342,7 +1342,7 @@
     "line": 98,
     "endLine": 102,
     "status": "passed",
-    "durationMs": 240.3324160000002
+    "durationMs": 248.30624999999964
    },
    {
     "id": "test/plan.test.ts::buildPlan on a real repo > holds every worktree back while minAge has not elapsed",
@@ -1354,7 +1354,7 @@
     "line": 104,
     "endLine": 108,
     "status": "passed",
-    "durationMs": 250.5472080000004
+    "durationMs": 264.253917
    },
    {
     "id": "test/plan.test.ts::buildPlan on a real repo > deletes merged branches with no worktree, and only those",
@@ -1366,7 +1366,7 @@
     "line": 110,
     "endLine": 118,
     "status": "passed",
-    "durationMs": 228.4264579999999
+    "durationMs": 296.79099999999926
    },
    {
     "id": "test/plan.test.ts::buildPlan on a real repo > leaves branches alone with --worktrees-only (pruneBranches: false)",
@@ -1378,7 +1378,7 @@
     "line": 120,
     "endLine": 123,
     "status": "passed",
-    "durationMs": 142.8804170000003
+    "durationMs": 235.83250000000044
    },
    {
     "id": "test/plan.test.ts::buildPlan on a real repo > leaves worktrees alone with --branches-only",
@@ -1390,7 +1390,7 @@
     "line": 125,
     "endLine": 136,
     "status": "passed",
-    "durationMs": 156.623834
+    "durationMs": 324.5300419999994
    },
    {
     "id": "test/plan.test.ts::buildPlan on a real repo > protects a worktree whose path is in protectPaths",
@@ -1402,7 +1402,7 @@
     "line": 138,
     "endLine": 141,
     "status": "passed",
-    "durationMs": 227.16508299999987
+    "durationMs": 364.96358299999974
    },
    {
     "id": "test/plan.test.ts::buildPlan on a real repo > protects a branch matched by a protectBranches glob",
@@ -1414,7 +1414,7 @@
     "line": 143,
     "endLine": 146,
     "status": "passed",
-    "durationMs": 228.2602079999997
+    "durationMs": 2296.771916999999
    },
    {
     "id": "test/plan.test.ts::buildPlan on a real repo > never reclaims the worktree holding the caller's cwd",
@@ -1426,7 +1426,7 @@
     "line": 148,
     "endLine": 157,
     "status": "passed",
-    "durationMs": 238.77066699999978
+    "durationMs": 783.9857089999987
    },
    {
     "id": "test/plan.test.ts::buildPlan on a real repo > respects a repo-level .treekeeper.json opt-out",
@@ -1438,7 +1438,7 @@
     "line": 159,
     "endLine": 170,
     "status": "passed",
-    "durationMs": 2.4287079999994603
+    "durationMs": 10.471040999998877
    },
    {
     "id": "test/plan.test.ts::buildPlan on a real repo > summarises what it would do",
@@ -1450,7 +1450,7 @@
     "line": 172,
     "endLine": 178,
     "status": "passed",
-    "durationMs": 224.71087499999976
+    "durationMs": 930.2170419999984
    },
    {
     "id": "test/redact.test.ts::redactRemote > strips embedded credentials from an https remote",
@@ -1462,7 +1462,7 @@
     "line": 5,
     "endLine": 10,
     "status": "passed",
-    "durationMs": 2.277541000000042
+    "durationMs": 2.0002909999999474
    },
    {
     "id": "test/redact.test.ts::redactRemote > leaves clean remotes untouched",
@@ -1474,7 +1474,7 @@
     "line": 12,
     "endLine": 15,
     "status": "passed",
-    "durationMs": 0.9238750000000095
+    "durationMs": 43.962041
    },
    {
     "id": "test/redact.test.ts::redactSecrets > scrubs credentials out of error text from git and gh",
@@ -1486,7 +1486,7 @@
     "line": 19,
     "endLine": 26,
     "status": "passed",
-    "durationMs": 1.1995000000000005
+    "durationMs": 10.227915999999937
    },
    {
     "id": "test/redact.test.ts::redactSecrets > scrubs bare tokens of well-known shapes",
@@ -1498,7 +1498,7 @@
     "line": 28,
     "endLine": 32,
     "status": "passed",
-    "durationMs": 0.6097080000000119
+    "durationMs": 1.1558750000000373
    },
    {
     "id": "test/redact.test.ts::redactSecrets > leaves ordinary text alone",
@@ -1510,7 +1510,7 @@
     "line": 34,
     "endLine": 37,
     "status": "passed",
-    "durationMs": 0.3580000000000041
+    "durationMs": 0.6609580000000506
    },
    {
     "id": "test/redact.test.ts::redactValue > walks nested log fields",
@@ -1522,7 +1522,7 @@
     "line": 41,
     "endLine": 54,
     "status": "passed",
-    "durationMs": 1.2644579999999905
+    "durationMs": 6.4645830000000615
    },
    {
     "id": "test/service.test.ts::sweepArgv > runs this installation's CLI with a non-interactive sweep",
@@ -1534,7 +1534,7 @@
     "line": 5,
     "endLine": 10,
     "status": "passed",
-    "durationMs": 3.110290999999961
+    "durationMs": 12.042874999999981
    },
    {
     "id": "test/service.test.ts::launchdPlist > is a well-formed plist with the interval and label",
@@ -1546,7 +1546,7 @@
     "line": 16,
     "endLine": 22,
     "status": "passed",
-    "durationMs": 1.3334159999999429
+    "durationMs": 0.8657089999999243
    },
    {
     "id": "test/service.test.ts::launchdPlist > carries a PATH that can find git and gh",
@@ -1558,7 +1558,7 @@
     "line": 24,
     "endLine": 28,
     "status": "passed",
-    "durationMs": 0.28337499999997817
+    "durationMs": 0.5079169999999067
    },
    {
     "id": "test/service.test.ts::launchdPlist > runs at low priority so a sweep never fights the editor for IO",
@@ -1570,7 +1570,7 @@
     "line": 30,
     "endLine": 33,
     "status": "passed",
-    "durationMs": 0.14312499999994088
+    "durationMs": 0.1623339999999871
    },
    {
     "id": "test/service.test.ts::launchdPlist > escapes XML metacharacters in paths",
@@ -1582,7 +1582,7 @@
     "line": 35,
     "endLine": 37,
     "status": "passed",
-    "durationMs": 0.28737499999999727
+    "durationMs": 0.7039579999999432
    },
    {
     "id": "test/service.test.ts::systemd units > writes a oneshot service that runs the sweep",
@@ -1594,7 +1594,7 @@
     "line": 41,
     "endLine": 47,
     "status": "passed",
-    "durationMs": 0.36045799999999417
+    "durationMs": 0.6171249999999873
    },
    {
     "id": "test/service.test.ts::systemd units > writes a timer that survives downtime",
@@ -1606,7 +1606,7 @@
     "line": 49,
     "endLine": 54,
     "status": "passed",
-    "durationMs": 0.18200000000001637
+    "durationMs": 0.214458000000036
    },
    {
     "id": "test/time.test.ts::parseDuration > parses single units",
@@ -1618,7 +1618,7 @@
     "line": 5,
     "endLine": 12,
     "status": "passed",
-    "durationMs": 2.7804579999999532
+    "durationMs": 4.2180419999999685
    },
    {
     "id": "test/time.test.ts::parseDuration > parses compound and bare values",
@@ -1630,7 +1630,7 @@
     "line": 14,
     "endLine": 19,
     "status": "passed",
-    "durationMs": 0.34875000000010914
+    "durationMs": 0.7329999999999472
    },
    {
     "id": "test/time.test.ts::parseDuration > is case and whitespace tolerant",
@@ -1642,7 +1642,7 @@
     "line": 21,
     "endLine": 23,
     "status": "passed",
-    "durationMs": 0.16170899999997346
+    "durationMs": 1.1143749999999955
    },
    {
     "id": "test/time.test.ts::parseDuration > throws rather than silently disabling a safety gate",
@@ -1654,7 +1654,7 @@
     "line": 25,
     "endLine": 29,
     "status": "passed",
-    "durationMs": 1.492083999999977
+    "durationMs": 2.490583000000015
    },
    {
     "id": "test/time.test.ts::formatDuration > uses at most two units",
@@ -1666,7 +1666,7 @@
     "line": 33,
     "endLine": 39,
     "status": "passed",
-    "durationMs": 0.3027080000000524
+    "durationMs": 0.987459000000058
    },
    {
     "id": "test/time.test.ts::formatAgo > collapses very recent timestamps",
@@ -1678,7 +1678,7 @@
     "line": 43,
     "endLine": 47,
     "status": "passed",
-    "durationMs": 0.235416999999984
+    "durationMs": 0.5325420000000349
    },
    {
     "id": "test/ui-command.test.ts::treekeeper ui --json > prints the all-time removal history and starts no server",
@@ -1690,7 +1690,7 @@
     "line": 156,
     "endLine": 179,
     "status": "passed",
-    "durationMs": 17.879500000000007
+    "durationMs": 10.490750000000048
    },
    {
     "id": "test/ui-command.test.ts::treekeeper ui --json > never appends to the log it just read",
@@ -1702,7 +1702,7 @@
     "line": 181,
     "endLine": 185,
     "status": "passed",
-    "durationMs": 4.796790999999985
+    "durationMs": 13.29404199999999
    },
    {
     "id": "test/ui-command.test.ts::treekeeper ui --json > is also what `treekeeper ui --json` on the command line runs",
@@ -1714,7 +1714,7 @@
     "line": 187,
     "endLine": 191,
     "status": "passed",
-    "durationMs": 7.907750000000078
+    "durationMs": 16.106416999999965
    },
    {
     "id": "test/ui-command.test.ts::treekeeper ui --port > refuses a port that is not one, with exit 2 and no server",
@@ -1726,7 +1726,7 @@
     "line": 195,
     "endLine": 203,
     "status": "passed",
-    "durationMs": 1.45637499999998
+    "durationMs": 1.0161249999999882
    },
    {
     "id": "test/ui-command.test.ts::treekeeper ui --port > reports a port it cannot have instead of crashing",
@@ -1738,7 +1738,7 @@
     "line": 205,
     "endLine": 219,
     "status": "passed",
-    "durationMs": 13.396124999999984
+    "durationMs": 16.09845800000005
    },
    {
     "id": "test/ui-command.test.ts::treekeeper ui > serves the dashboard on a loopback port and stops when it is asked to",
@@ -1750,7 +1750,7 @@
     "line": 223,
     "endLine": 249,
     "status": "passed",
-    "durationMs": 42.13104199999998
+    "durationMs": 44.38333299999999
    },
    {
     "id": "test/ui-command.test.ts::treekeeper ui > leaves the browser alone with --no-open, and opens it without",
@@ -1762,7 +1762,7 @@
     "line": 251,
     "endLine": 258,
     "status": "passed",
-    "durationMs": 3.111332999999945
+    "durationMs": 2.9971249999999827
    },
    {
     "id": "test/ui-command.test.ts::treekeeper ui > writes nothing to the log while the dashboard is up",
@@ -1774,7 +1774,7 @@
     "line": 260,
     "endLine": 266,
     "status": "passed",
-    "durationMs": 69.82279200000005
+    "durationMs": 28.399291999999946
    },
    {
     "id": "test/ui-command.test.ts::treekeeper ui > is a command the CLI offers, with its two flags",
@@ -1786,7 +1786,7 @@
     "line": 268,
     "endLine": 277,
     "status": "passed",
-    "durationMs": 1.2908750000000282
+    "durationMs": 0.9450830000000678
    },
    {
     "id": "test/ui-command.test.ts::createContext > builds a logger that cannot write to the log file when logToFile is off",
@@ -1798,7 +1798,7 @@
     "line": 281,
     "endLine": 299,
     "status": "passed",
-    "durationMs": 32.78575000000001
+    "durationMs": 7.565124999999966
    },
    {
     "id": "test/ui-server.test.ts::createUiServer > serves the dashboard document itself, with the policy that pins its script",
@@ -1810,7 +1810,7 @@
     "line": 152,
     "endLine": 165,
     "status": "passed",
-    "durationMs": 17.608083000000022
+    "durationMs": 18.921332999999947
    },
    {
     "id": "test/ui-server.test.ts::createUiServer > answers a HEAD with the headers and no body",
@@ -1822,7 +1822,7 @@
     "line": 167,
     "endLine": 173,
     "status": "passed",
-    "durationMs": 4.668917000000022
+    "durationMs": 9.232792000000018
    },
    {
     "id": "test/ui-server.test.ts::createUiServer > answers the history route with the report for the range asked for",
@@ -1834,7 +1834,7 @@
     "line": 175,
     "endLine": 189,
     "status": "passed",
-    "durationMs": 4.418624999999963
+    "durationMs": 6.1541670000000295
    },
    {
     "id": "test/ui-server.test.ts::createUiServer > refuses a range it does not offer, before reading anything",
@@ -1846,7 +1846,7 @@
     "line": 191,
     "endLine": 198,
     "status": "passed",
-    "durationMs": 1.4332079999999792
+    "durationMs": 1.699625000000026
    },
    {
     "id": "test/ui-server.test.ts::createUiServer > answers the usage route with the measured report",
@@ -1858,7 +1858,7 @@
     "line": 200,
     "endLine": 205,
     "status": "passed",
-    "durationMs": 1.202541999999994
+    "durationMs": 1.31412499999999
    },
    {
     "id": "test/ui-server.test.ts::createUiServer > still serves the history when the daemon state cannot be read",
@@ -1870,7 +1870,7 @@
     "line": 207,
     "endLine": 216,
     "status": "passed",
-    "durationMs": 1.5215840000000185
+    "durationMs": 2.1537079999999946
    },
    {
     "id": "test/ui-server.test.ts::createUiServer > is read-only: it offers three GET routes and refuses every other method",
@@ -1882,7 +1882,7 @@
     "line": 218,
     "endLine": 244,
     "status": "passed",
-    "durationMs": 13.034750000000031
+    "durationMs": 27.823999999999955
    },
    {
     "id": "test/ui-server.test.ts::createUiServer > answers an unknown path with 404",
@@ -1894,7 +1894,7 @@
     "line": 246,
     "endLine": 252,
     "status": "passed",
-    "durationMs": 1.8125
+    "durationMs": 1.799416000000008
    },
    {
     "id": "test/ui-server.test.ts::createUiServer > refuses a request that did not address this loopback server by name",
@@ -1906,7 +1906,7 @@
     "line": 254,
     "endLine": 278,
     "status": "passed",
-    "durationMs": 7.686166000000014
+    "durationMs": 16.986459000000025
    },
    {
     "id": "test/ui-server.test.ts::createUiServer > listens on the loopback address only",
@@ -1918,7 +1918,7 @@
     "line": 280,
     "endLine": 306,
     "status": "passed",
-    "durationMs": 2.981749999999977
+    "durationMs": 2.343291000000022
    },
    {
     "id": "test/ui-server.test.ts::createUiServer > measures usage once for requests that arrive together, then serves it from cache",
@@ -1930,7 +1930,7 @@
     "line": 308,
     "endLine": 356,
     "status": "passed",
-    "durationMs": 96.11595799999998
+    "durationMs": 97.266209
    },
    {
     "id": "test/ui-server.test.ts::createUiServer > turns a data source that fails into a 500 with a JSON error, not a hung request",
@@ -1942,7 +1942,7 @@
     "line": 358,
     "endLine": 384,
     "status": "passed",
-    "durationMs": 4.9822920000000295
+    "durationMs": 4.594084000000066
    },
    {
     "id": "test/usage.test.ts::readVolumes > reports total, used and free space for the volume behind a root",
@@ -1954,7 +1954,7 @@
     "line": 98,
     "endLine": 108,
     "status": "passed",
-    "durationMs": 1.6471669999999676
+    "durationMs": 1.3339590000000499
    },
    {
     "id": "test/usage.test.ts::readVolumes > reports one volume once, however many roots live on it",
@@ -1966,7 +1966,7 @@
     "line": 110,
     "endLine": 119,
     "status": "passed",
-    "durationMs": 1.1958339999999907
+    "durationMs": 0.8222500000000537
    },
    {
     "id": "test/usage.test.ts::readVolumes > leaves out a root that cannot be read instead of failing the report",
@@ -1978,7 +1978,7 @@
     "line": 121,
     "endLine": 127,
     "status": "passed",
-    "durationMs": 0.6269589999999994
+    "durationMs": 0.29054200000007313
    },
    {
     "id": "test/usage.test.ts::readVolumes > never reports negative use when a filesystem reports more free than total",
@@ -1990,7 +1990,7 @@
     "line": 129,
     "endLine": 135,
     "status": "passed",
-    "durationMs": 0.16912500000000819
+    "durationMs": 0.11887500000000273
    },
    {
     "id": "test/usage.test.ts::readVolumes > has no volume to report when no root exists",
@@ -2002,7 +2002,7 @@
     "line": 137,
     "endLine": 140,
     "status": "passed",
-    "durationMs": 0.1951670000000263
+    "durationMs": 0.14816700000005767
    },
    {
     "id": "test/usage.test.ts::summarizeUsage > counts the linked worktrees of a repo, their size, and what is reclaimable now",
@@ -2014,7 +2014,7 @@
     "line": 144,
     "endLine": 168,
     "status": "passed",
-    "durationMs": 3.4859590000000367
+    "durationMs": 1.1732919999999467
    },
    {
     "id": "test/usage.test.ts::summarizeUsage > takes the size of a worktree the plan did not measure from the injected sizes",
@@ -2026,7 +2026,7 @@
     "line": 170,
     "endLine": 182,
     "status": "passed",
-    "durationMs": 0.24020799999999554
+    "durationMs": 0.1436669999999367
    },
    {
     "id": "test/usage.test.ts::summarizeUsage > keeps a worktree it could not measure out of the sizes without corrupting them",
@@ -2038,7 +2038,7 @@
     "line": 184,
     "endLine": 209,
     "status": "passed",
-    "durationMs": 0.3035000000000423
+    "durationMs": 0.22941600000001472
    },
    {
     "id": "test/usage.test.ts::summarizeUsage > leaves each repo's own checkout out of the counts, so its worktrees are not counted twice",
@@ -2050,7 +2050,7 @@
     "line": 211,
     "endLine": 224,
     "status": "passed",
-    "durationMs": 0.24650000000002592
+    "durationMs": 0.15837499999997817
    },
    {
     "id": "test/usage.test.ts::summarizeUsage > sets a skipped repo aside with its reason and counts none of it",
@@ -2062,7 +2062,7 @@
     "line": 226,
     "endLine": 244,
     "status": "passed",
-    "durationMs": 0.328125
+    "durationMs": 0.21295899999995527
    },
    {
     "id": "test/usage.test.ts::summarizeUsage > puts the repos that hold the most disk first",
@@ -2074,7 +2074,7 @@
     "line": 246,
     "endLine": 266,
     "status": "passed",
-    "durationMs": 0.2779170000000022
+    "durationMs": 0.18799999999998818
    },
    {
     "id": "test/usage.test.ts::summarizeUsage > is reachable from the package entry point, alongside the plan it summarizes",
@@ -2086,7 +2086,7 @@
     "line": 268,
     "endLine": 274,
     "status": "passed",
-    "durationMs": 56.730458000000056
+    "durationMs": 68.07825000000003
    },
    {
     "id": "test/usage.test.ts::summarizeUsage > always has totals that are the sum of the rows it shows",
@@ -2098,7 +2098,7 @@
     "line": 276,
     "endLine": 316,
     "status": "passed",
-    "durationMs": 10.822667000000024
+    "durationMs": 11.491250000000036
    },
    {
     "id": "test/usage.test.ts::buildUsageReport on a real repo > reports every linked worktree with its size, and leaves them all on disk",
@@ -2110,7 +2110,7 @@
     "line": 343,
     "endLine": 377,
     "status": "passed",
-    "durationMs": 420.6630829999999
+    "durationMs": 323.37895800000024
    },
    {
     "id": "test/usage.test.ts::buildUsageReport on a real repo > gives up a measurement that is aborted mid-flight",
@@ -2122,7 +2122,7 @@
     "line": 379,
     "endLine": 391,
     "status": "passed",
-    "durationMs": 45.588209000000006
+    "durationMs": 53.47191699999985
    }
   ]
  }
