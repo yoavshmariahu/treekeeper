@@ -1,0 +1,38 @@
+{
+  "tests": [
+    "**/*.test.*",
+    "**/*.spec.*",
+    "**/__tests__/**",
+    "test/**",
+    "tests/**",
+    "**/test_*.py",
+    "**/*_test.py",
+    "**/*_test.go"
+  ],
+  "ignore": [
+    "**/*.md",
+    "**/*.lock",
+    "**/pnpm-lock.yaml",
+    "**/package-lock.json",
+    ".claude/**",
+    ".github/**",
+    ".gitignore",
+    "tci.config.json"
+  ],
+  "test": {
+    "command": "npx vitest run --reporter=json --outputFile={report}"
+  },
+  "gate": {
+    "commit": "block",
+    "push": "block",
+    "requireEvidence": true,
+    "requireDescriptions": true
+  },
+  "context": {
+    "enabled": true,
+    "model": "claude-opus-5-5"
+  },
+  "delegate": {
+    "enabled": true
+  }
+}

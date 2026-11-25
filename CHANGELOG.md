@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- `treekeeper ui` — a local, read-only dashboard of what has been reclaimed (worktrees, space, branches, by repo and by day) plus current disk usage and daemon state. Bound to `127.0.0.1`, serves only `GET`, and makes no outbound request. `--port <n>`, `--no-open`, and `--json` for the history without a server.
 - Fix the README's harness-hook snippet, which told you to run `npx -y treekeeper`. That name is an unrelated package; the scoped `npx -y @yoavsh/treekeeper` is correct. No code changed.
 
 ## 0.1.0

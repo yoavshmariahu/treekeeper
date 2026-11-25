@@ -7,6 +7,7 @@ import { daemonCommand } from "./commands/daemon.js";
 import { doctorCommand } from "./commands/doctor.js";
 import { gcCommand } from "./commands/gc.js";
 import { statusCommand } from "./commands/status.js";
+import { uiCommand } from "./commands/ui.js";
 import { watchCommand } from "./commands/watch.js";
 import type { CliFlags } from "./commands/context.js";
 import { color } from "./util/color.js";
@@ -19,6 +20,7 @@ ${color.bold("USAGE")}
 ${color.bold("COMMANDS")}
   gc [path...]        Plan a sweep (default). Add --apply to carry it out.
   status              What is reclaimable right now, plus daemon state.
+  ui                  A local, read-only dashboard in your browser.
   watch               Sweep on an interval in the foreground.
   daemon <sub>        install | uninstall | start | stop | status | logs
   archive <sub>       list | prune | path
@@ -42,6 +44,8 @@ ${color.bold("OPTIONS")}
   --sizes             Measure every worktree, not just the removable ones
   --root <dir>        Override roots (repeatable)
   --interval <dur>    Interval for watch / daemon install
+  --port <n>          Port for ui (default: a free one)
+  --no-open           Do not open a browser for ui
   --config <file>     Use a specific config file
   -h, --help          This text
   --version           Version
@@ -75,11 +79,13 @@ export async function main(argv: string[]): Promise<number> {
         sizes: { type: "boolean" },
         "branches-only": { type: "boolean" },
         "worktrees-only": { type: "boolean" },
+        "no-open": { type: "boolean" },
         "min-age": { type: "string" },
         "session-grace": { type: "string" },
         forge: { type: "string" },
         root: { type: "string", multiple: true },
         interval: { type: "string" },
+        port: { type: "string" },
         config: { type: "string" },
         help: { type: "boolean", short: "h" },
         version: { type: "boolean" },
@@ -122,6 +128,8 @@ export async function main(argv: string[]): Promise<number> {
     interval: values.interval,
     config: values.config,
     roots: values.root,
+    port: values.port,
+    noOpen: values["no-open"],
   };
 
   switch (command) {
@@ -130,6 +138,8 @@ export async function main(argv: string[]): Promise<number> {
       return gcCommand(rest, flags);
     case "status":
       return statusCommand(flags);
+    case "ui":
+      return uiCommand(flags);
     case "watch":
       return watchCommand(flags);
     case "daemon":

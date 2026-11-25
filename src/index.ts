@@ -30,6 +30,19 @@ export { discoverRepos, reposFromPaths } from "./core/scan.js";
 export { createActivityContext, detectActivity, isActive } from "./core/sessions.js";
 export type { ActivityContext, ActivityHit } from "./core/sessions.js";
 
+export {
+  parseLogLine, readRemovalEvents, buildHistoryReport, isHistoryRange, HISTORY_RANGES,
+} from "./core/history.js";
+export type {
+  RemovalEvent, HistoryReport, HistoryOptions, HistoryRange,
+  HistoryTotals, RepoHistory, DayHistory, RemovalEntry,
+} from "./core/history.js";
+
+export { buildUsageReport, summarizeUsage, readVolumes } from "./core/usage.js";
+export type {
+  UsageReport, UsageOptions, UsageTotals, VolumeUsage, RepoUsage, VolumeProbe,
+} from "./core/usage.js";
+
 export { renderPlan, renderApply, summaryLine } from "./core/render.js";
 export { Logger } from "./util/log.js";
 export { parseDuration, formatDuration } from "./util/time.js";
