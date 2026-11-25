@@ -24,6 +24,10 @@ export interface CliFlags {
   interval?: string;
   config?: string;
   roots?: string[];
+  /** `ui`: the port to listen on. Unset lets the OS pick a free one. */
+  port?: string;
+  /** `ui`: do not open the dashboard in a browser. */
+  noOpen?: boolean;
 }
 
 export interface Context {
@@ -34,8 +38,16 @@ export interface Context {
   configSources: string[];
 }
 
+export interface ContextOptions {
+  /**
+   * Whether the logger appends to `config.logFile`. Default true. A command
+   * that only reports turns it off, so that reading the log never grows it.
+   */
+  logToFile?: boolean;
+}
+
 /** Load config, apply CLI overrides, and build the shared logger and forge. */
-export async function createContext(flags: CliFlags): Promise<Context> {
+export async function createContext(flags: CliFlags, opts: ContextOptions = {}): Promise<Context> {
   const loaded = await loadConfig(flags.config ? expandPath(flags.config) : undefined);
   const config = loaded.config;
 
@@ -48,7 +60,7 @@ export async function createContext(flags: CliFlags): Promise<Context> {
 
   const logger = new Logger({
     level: config.logLevel,
-    file: config.logFile,
+    file: opts.logToFile === false ? undefined : config.logFile,
     quiet: flags.quiet === true,
   });
 

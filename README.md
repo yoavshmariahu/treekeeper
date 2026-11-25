@@ -93,6 +93,21 @@ treekeeper archive list      # what has been removed lately
 treekeeper archive prune     # drop archives past the retention window (14d)
 ```
 
+## The dashboard
+
+`treekeeper ui` reads the removal log back and serves it as a page: worktrees removed, space reclaimed, branches pruned — by repo, and day by day. Underneath it, what your worktrees occupy right now, what a sweep could still take, and whether the daemon is running.
+
+```bash
+treekeeper ui                # pick a free port, open a browser
+treekeeper ui --port 7777    # a fixed port
+treekeeper ui --no-open      # just print the URL
+treekeeper ui --json         # the history as JSON, no server
+```
+
+It is local and read-only, by construction. The server binds to `127.0.0.1` alone, turns away any request that did not address it there, and answers nothing but `GET` and `HEAD` — there is no route that removes, archives or prunes, and reading the history never appends to the log. The page is one self-contained document: no CDN, no web font, no analytics, nothing fetched from anywhere but the two JSON endpoints that served it.
+
+"On disk now" sizes every worktree with `du`, so the first measurement takes a few seconds to a minute on a big tree. It is cached for five minutes, and there is a button to take it again.
+
 ## It works with any agent harness
 
 treekeeper decides from **state, not hooks**: git, your forge, and whatever the agents left on disk. So it works with harnesses it has never heard of, and it keeps working when a harness changes its hook API.
@@ -191,6 +206,7 @@ A repo can override any of it, or opt out entirely, with its own `.treekeeper.js
 ```
 treekeeper gc [path...]     Plan a sweep (default command). --apply to carry it out.
 treekeeper status           What is reclaimable right now, plus daemon state.
+treekeeper ui               A local, read-only dashboard in your browser.
 treekeeper watch            Sweep on an interval in the foreground.
 treekeeper daemon <sub>     install | uninstall | start | stop | status | logs
 treekeeper archive <sub>    list | prune | path
