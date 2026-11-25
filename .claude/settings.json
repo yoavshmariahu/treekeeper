@@ -1,0 +1,88 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if command -v tci >/dev/null 2>&1; then tci hook session-start; else echo '{\"systemMessage\":\"This repository records which behavior each code change implements, using tci, but tci is not on your PATH. Nothing is being recorded in this session. See the repository README for how to get it.\"}'; fi # tci",
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if command -v tci >/dev/null 2>&1; then tci hook prompt; fi # tci",
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit|Bash|Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if command -v tci >/dev/null 2>&1; then tci hook pre-tool; fi # tci",
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit|Bash|Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if command -v tci >/dev/null 2>&1; then tci hook post-tool; fi # tci",
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if command -v tci >/dev/null 2>&1; then tci hook stop; fi # tci",
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if command -v tci >/dev/null 2>&1; then tci hook subagent-start; fi # tci",
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if command -v tci >/dev/null 2>&1; then tci hook subagent-stop; fi # tci",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(tci *)"
+    ]
+  }
+}
